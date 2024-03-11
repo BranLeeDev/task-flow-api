@@ -1,4 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { ConfigModule as NestConfigModule } from '@nestjs/config';
 import { FastifyRequest } from 'fastify';
 import { LoggerModule } from 'nestjs-pino';
 import {
@@ -6,6 +7,7 @@ import {
   CorrelationIdMiddleware,
 } from '@middlewares/correlation-id.middleware';
 import { isProd } from '@env/variables.env';
+import registersEnv from '@env/registers.env';
 
 @Module({
   imports: [
@@ -35,6 +37,10 @@ import { isProd } from '@env/variables.env';
           },
         },
       },
+    }),
+    NestConfigModule.forRoot({
+      isGlobal: true,
+      load: [registersEnv],
     }),
   ],
 })
