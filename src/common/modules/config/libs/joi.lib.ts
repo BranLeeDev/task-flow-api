@@ -4,7 +4,7 @@ const DEV = 'development';
 const PROD = 'production';
 
 const NODE_ENV = Joi.string().valid(DEV, PROD).required();
-const PORT = Joi.number().integer().min(1000).required();
+const PORT = Joi.number().integer().positive().required();
 const NAME = Joi.string().min(3).max(30).required();
 const EMAIL = Joi.string().email().min(10).required();
 
