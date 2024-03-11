@@ -8,6 +8,7 @@ import {
 } from '@middlewares/correlation-id.middleware';
 import { isProd } from '@env/variables.env';
 import registersEnv from '@env/registers.env';
+import { joiConfigSchema } from './libs/joi.lib';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import registersEnv from '@env/registers.env';
     NestConfigModule.forRoot({
       isGlobal: true,
       load: [registersEnv],
+      validationSchema: joiConfigSchema,
     }),
   ],
 })
