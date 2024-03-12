@@ -11,10 +11,7 @@ import {
   MinDate,
   MinLength,
 } from 'class-validator';
-import {
-  TaskPriority,
-  TaskStatus,
-} from 'src/common/modules/database/models/task.model';
+import { TaskPriority, TaskStatus } from '@models/task.model';
 
 export class CreateTaskDto {
   @IsNotEmpty()
