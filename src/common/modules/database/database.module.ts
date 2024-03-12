@@ -3,6 +3,10 @@ import { ENV, isProd } from '@env/variables.env';
 import { Module } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './entities/users/user.entity';
+import { Team } from './entities/users/team.entity';
+import { Task } from './entities/tasks/task.entity';
+import { Project } from './entities/tasks/project.entity';
 
 @Module({
   imports: [
@@ -26,6 +30,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         return {
           type: 'postgres',
           url: DATABASE_URL,
+          entities: [User, Team, Task, Project],
           ssl: isProd ? true : false,
           extra: {
             ssl: isProd
