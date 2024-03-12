@@ -23,7 +23,7 @@ export class CreateTaskDto {
   @IsOptional()
   @IsString()
   @MinLength(15)
-  readonly description: string;
+  readonly description?: string;
 
   @IsNotEmpty()
   @IsDate()
@@ -32,11 +32,11 @@ export class CreateTaskDto {
 
   @IsOptional()
   @IsEnum(TaskStatus)
-  readonly status: TaskStatus;
+  readonly status?: TaskStatus;
 
   @IsOptional()
   @IsEnum(TaskPriority)
-  readonly priority: TaskPriority;
+  readonly priority?: TaskPriority;
 
   @IsInt()
   @IsPositive()
