@@ -7,7 +7,7 @@ export class Task extends Base {
   @Column({ type: 'varchar', length: 100 })
   name: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   description: string;
 
   @Column({ type: 'datetime', name: 'start_date' })
@@ -16,9 +16,9 @@ export class Task extends Base {
   @Column({ type: 'datetime', name: 'due_date' })
   dueDate: Date;
 
-  @Column({ type: 'enum', enum: TaskStatus })
+  @Column({ type: 'enum', enum: TaskStatus, default: TaskStatus.Pending })
   status: TaskStatus;
 
-  @Column({ type: 'enum', enum: TaskPriority })
+  @Column({ type: 'enum', enum: TaskPriority, default: TaskPriority.Medium })
   priority: TaskPriority;
 }
