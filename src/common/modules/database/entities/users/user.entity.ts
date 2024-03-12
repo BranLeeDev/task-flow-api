@@ -14,7 +14,7 @@ export class User extends Base {
     nullable: true,
     name: 'first_name',
   })
-  firstName: string;
+  firstName?: string;
 
   @Column({
     type: 'varchar',
@@ -22,7 +22,7 @@ export class User extends Base {
     nullable: true,
     name: 'last_name',
   })
-  lastName: string;
+  lastName?: string;
 
   @Column({ type: 'varchar', length: 100 })
   email: string;
