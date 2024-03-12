@@ -31,7 +31,7 @@ import { Project } from './entities/tasks/project.entity';
           type: 'postgres',
           url: DATABASE_URL,
           entities: [User, Team, Task, Project],
-          ssl: isProd ? true : false,
+          ssl: isProd,
           extra: {
             ssl: isProd
               ? {
