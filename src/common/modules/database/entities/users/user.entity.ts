@@ -7,10 +7,20 @@ import { Team } from './team.entity';
 
 @Entity({ name: 'users' })
 export class User extends Base {
-  @Column({ type: 'varchar', length: 25, name: 'first_name' })
+  @Column({
+    type: 'varchar',
+    length: 25,
+    nullable: true,
+    name: 'first_name',
+  })
   firstName: string;
 
-  @Column({ type: 'varchar', length: 25, name: 'last_name' })
+  @Column({
+    type: 'varchar',
+    length: 25,
+    nullable: true,
+    name: 'last_name',
+  })
   lastName: string;
 
   @Column({ type: 'varchar', length: 100 })
@@ -19,7 +29,11 @@ export class User extends Base {
   @Column({ type: 'varchar', length: 50 })
   password: string;
 
-  @Column({ type: 'enum', enum: UserRoles, default: UserRoles.TeamMember })
+  @Column({
+    type: 'enum',
+    enum: UserRoles,
+    default: UserRoles.TeamMember,
+  })
   role: UserRoles;
 
   @OneToMany(() => Project, (project) => project.manager)
