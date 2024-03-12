@@ -19,7 +19,8 @@
     "noFallthroughCasesInSwitch": true,
     "paths": {
       "@env/*": ["src/common/modules/config/envs/*"],
-      "@middlewares/*": ["src/common/middlewares/*"]
+      "@middlewares/*": ["src/common/middlewares/*"],
+      "@entities/*": ["src/common/modules/database/entities/*"]
     }
   }
 }
