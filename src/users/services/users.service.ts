@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, Repository } from 'typeorm';
 import { User } from '@entities/users/user.entity';
-import { CreateUserDto, FilterUserDto } from '../dtos/users.dto';
+import { CreateUserDto, FilterUserDto, UpdateUserDto } from '../dtos/users.dto';
 
 @Injectable()
 export class UsersService {
@@ -37,5 +37,12 @@ export class UsersService {
     const newUser = this.userRepo.create(createUserDto);
     const createdUser = await this.userRepo.save(newUser);
     return createdUser;
+  }
+
+  async update(userId: number, updateUserDto: UpdateUserDto) {
+    const userFound = await this.findUserById(userId);
+    this.userRepo.merge(userFound, updateUserDto);
+    const updatedUser = await this.userRepo.save(userFound);
+    return updatedUser;
   }
 }
