@@ -30,6 +30,7 @@ import { Project } from './entities/tasks/project.entity';
         return {
           type: 'postgres',
           url: DATABASE_URL,
+          synchronize: false,
           entities: [User, Team, Task, Project],
           ssl: isProd,
           extra: {
