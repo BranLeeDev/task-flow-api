@@ -45,4 +45,10 @@ export class UsersService {
     const updatedUser = await this.userRepo.save(userFound);
     return updatedUser;
   }
+
+  async delete(userId: number) {
+    const userToDelete = await this.findUserById(userId);
+    await this.userRepo.delete(userId);
+    return userToDelete;
+  }
 }
