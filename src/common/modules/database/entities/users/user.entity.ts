@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, Relation } from 'typeorm';
+import { Column, Entity, ManyToMany, OneToMany, Relation } from 'typeorm';
 import { UserRoles } from '../../models/user.model';
 import { Base } from '../shared/base.entity';
 import { Project } from '../tasks/project.entity';
@@ -26,4 +26,7 @@ export class User extends Base {
 
   @OneToMany(() => Task, (task) => task.user)
   tasks: Relation<Task[]>;
+
+  @ManyToMany(() => Project, (project) => project.users)
+  userProjects: Relation<Project[]>;
 }

@@ -1,4 +1,12 @@
-import { Column, Entity, JoinColumn, ManyToOne, Relation } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  Relation,
+} from 'typeorm';
 import { Base } from '../shared/base.entity';
 import { ProjectPriority, ProjectStatus } from '../../models/project.model';
 import { User } from '../users/user.entity';
@@ -42,4 +50,18 @@ export class Project extends Base {
   @ManyToOne(() => Team, (team) => team.projects)
   @JoinColumn({ name: 'team_id' })
   team: Relation<Team>;
+
+  @ManyToMany(() => User, (user) => user.userProjects)
+  @JoinTable({
+    name: 'projects_users',
+    joinColumn: {
+      name: 'project_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'user_id',
+      referencedColumnName: 'id',
+    },
+  })
+  users: Promise<User[]>;
 }
