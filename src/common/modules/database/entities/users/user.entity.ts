@@ -1,6 +1,7 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany, Relation } from 'typeorm';
 import { UserRoles } from '../../models/user.model';
 import { Base } from '../shared/base.entity';
+import { Project } from '../tasks/project.entity';
 
 @Entity({ name: 'users' })
 export class User extends Base {
@@ -18,4 +19,7 @@ export class User extends Base {
 
   @Column({ type: 'enum', enum: UserRoles, default: UserRoles.TeamMember })
   role: UserRoles;
+
+  @OneToMany(() => Project, (project) => project.manager)
+  projects: Relation<Project[]>;
 }
