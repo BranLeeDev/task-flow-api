@@ -22,7 +22,7 @@ export class User extends Base {
   role: UserRoles;
 
   @OneToMany(() => Project, (project) => project.manager)
-  projects: Relation<Project[]>;
+  managerProjects: Relation<Project[]>;
 
   @OneToMany(() => Task, (task) => task.user)
   tasks: Relation<Task[]>;
