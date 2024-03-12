@@ -10,7 +10,7 @@ This project is a REST API built with NestJS, a progressive Node.js framework. I
 
 Here is the database design used in this project:
 
-![Database Design](https://res.cloudinary.com/dbbixakcl/image/upload/f_auto,q_auto/v1/task-flow-api/btiyaqh6ftctfojiv2bu)
+![Database Design](https://res.cloudinary.com/dbbixakcl/image/upload/f_auto,q_auto/v1/task-flow-api/mw0cbmvudlj1gvyosdby)
 
 ## Installation
 
