@@ -1,6 +1,7 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, Relation } from 'typeorm';
 import { TaskPriority, TaskStatus } from '../../models/task.model';
 import { Base } from '../shared/base.entity';
+import { User } from '../users/user.entity';
 
 @Entity({ name: 'tasks' })
 export class Task extends Base {
@@ -25,4 +26,8 @@ export class Task extends Base {
 
   @Column({ type: 'enum', enum: TaskPriority, default: TaskPriority.Medium })
   priority: TaskPriority;
+
+  @ManyToOne(() => User, (user) => user.tasks)
+  @JoinColumn({ name: 'user_id' })
+  user: Relation<User>;
 }

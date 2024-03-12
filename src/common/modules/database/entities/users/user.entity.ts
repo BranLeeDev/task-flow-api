@@ -2,6 +2,7 @@ import { Column, Entity, OneToMany, Relation } from 'typeorm';
 import { UserRoles } from '../../models/user.model';
 import { Base } from '../shared/base.entity';
 import { Project } from '../tasks/project.entity';
+import { Task } from '../tasks/task.entity';
 
 @Entity({ name: 'users' })
 export class User extends Base {
@@ -22,4 +23,7 @@ export class User extends Base {
 
   @OneToMany(() => Project, (project) => project.manager)
   projects: Relation<Project[]>;
+
+  @OneToMany(() => Task, (task) => task.user)
+  tasks: Relation<Task[]>;
 }
