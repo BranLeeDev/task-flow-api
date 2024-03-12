@@ -15,9 +15,12 @@ export class UsersService {
       relations: ['tasks'],
     };
     if (filterUserDto) {
-      const { limit, offset } = filterUserDto;
+      const { limit, offset, role } = filterUserDto;
       options.take = limit ?? 20;
       options.skip = offset ?? 0;
+      options.where = {
+        role,
+      };
     }
     const usersList = await this.userRepo.find(options);
     return usersList;
