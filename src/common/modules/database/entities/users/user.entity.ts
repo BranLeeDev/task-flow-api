@@ -3,6 +3,7 @@ import { UserRoles } from '../../models/user.model';
 import { Base } from '../shared/base.entity';
 import { Project } from '../tasks/project.entity';
 import { Task } from '../tasks/task.entity';
+import { Team } from './team.entity';
 
 @Entity({ name: 'users' })
 export class User extends Base {
@@ -29,4 +30,7 @@ export class User extends Base {
 
   @ManyToMany(() => Project, (project) => project.users)
   userProjects: Relation<Project[]>;
+
+  @ManyToMany(() => Team, (team) => team.members)
+  teams: Relation<Team[]>;
 }
