@@ -3,10 +3,14 @@ import { PartialType } from '@nestjs/swagger';
 import {
   IsEmail,
   IsEnum,
+  IsInt,
+  IsNumber,
   IsOptional,
+  IsPositive,
   IsString,
   IsStrongPassword,
   MaxLength,
+  Min,
   MinLength,
 } from 'class-validator';
 
@@ -38,6 +42,20 @@ export class CreateUserDto {
   @IsOptional()
   @IsEnum(UserRoles)
   readonly role: UserRoles;
+}
+
+export class FilterUserDto {
+  @IsOptional()
+  @IsNumber()
+  @IsInt()
+  @IsPositive()
+  readonly limit?: number;
+
+  @IsOptional()
+  @IsNumber()
+  @IsInt()
+  @Min(0)
+  readonly offset?: number;
 }
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {}
