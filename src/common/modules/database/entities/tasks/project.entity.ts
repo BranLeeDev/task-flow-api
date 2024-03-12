@@ -10,10 +10,10 @@ export class Project extends Base {
   @Column({ type: 'text', nullable: true })
   description: string;
 
-  @Column({ type: 'datetime', name: 'start_date' })
+  @Column({ type: 'timestamptz', name: 'start_date' })
   startDate: Date;
 
-  @Column({ type: 'datetime', name: 'due_date' })
+  @Column({ type: 'timestamptz', name: 'due_date' })
   dueDate: Date;
 
   @Column({
