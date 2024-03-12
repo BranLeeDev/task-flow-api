@@ -10,7 +10,11 @@ export class Task extends Base {
   @Column({ type: 'text', nullable: true })
   description: string;
 
-  @Column({ type: 'timestamptz', name: 'start_date' })
+  @Column({
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+    name: 'start_date',
+  })
   startDate: Date;
 
   @Column({ type: 'timestamptz', name: 'due_date' })
