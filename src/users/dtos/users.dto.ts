@@ -19,13 +19,13 @@ export class CreateUserDto {
   @IsString()
   @MinLength(3)
   @MaxLength(25)
-  readonly firstName: string;
+  readonly firstName?: string;
 
   @IsOptional()
   @IsString()
   @MinLength(3)
   @MaxLength(25)
-  readonly lastName: string;
+  readonly lastName?: string;
 
   @IsString()
   @IsEmail()
@@ -41,7 +41,7 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsEnum(UserRoles)
-  readonly role: UserRoles;
+  readonly role?: UserRoles;
 }
 
 export class FilterUserDto {
