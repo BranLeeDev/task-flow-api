@@ -4,6 +4,7 @@ import { Base } from '../shared/base.entity';
 import { Project } from '../tasks/project.entity';
 import { Task } from '../tasks/task.entity';
 import { Team } from './team.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'users' })
 export class User extends Base {
@@ -26,6 +27,7 @@ export class User extends Base {
   @Column({ type: 'varchar', length: 100 })
   email: string;
 
+  @Exclude()
   @Column({ type: 'varchar', length: 50 })
   password: string;
 
