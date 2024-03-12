@@ -56,6 +56,10 @@ export class FilterUserDto {
   @IsInt()
   @Min(0)
   readonly offset?: number;
+
+  @IsOptional()
+  @IsEnum(UserRoles)
+  role?: UserRoles;
 }
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {}
