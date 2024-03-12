@@ -1,8 +1,8 @@
-import { User } from '@entities/users/user.entity';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { CreateUserDto } from '../dtos/users.dto';
+import { FindManyOptions, Repository } from 'typeorm';
+import { User } from '@entities/users/user.entity';
+import { CreateUserDto, FilterUserDto } from '../dtos/users.dto';
 
 @Injectable()
 export class UsersService {
@@ -10,8 +10,16 @@ export class UsersService {
     @InjectRepository(User) private readonly userRepo: Repository<User>,
   ) {}
 
-  async findAll() {
-    const usersList = await this.userRepo.find();
+  async findAll(filterUserDto?: FilterUserDto) {
+    const options: FindManyOptions<User> = {
+      relations: ['tasks'],
+    };
+    if (filterUserDto) {
+      const { limit, offset } = filterUserDto;
+      options.take = limit ?? 20;
+      options.skip = offset ?? 0;
+    }
+    const usersList = await this.userRepo.find(options);
     return usersList;
   }
 
