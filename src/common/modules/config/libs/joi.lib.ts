@@ -7,10 +7,15 @@ const NODE_ENV = Joi.string().valid(DEV, PROD).required();
 const PORT = Joi.number().integer().positive().required();
 const NAME = Joi.string().min(3).max(30).required();
 const EMAIL = Joi.string().email().min(10).required();
+const URI = Joi.string().uri().required();
 
 export const joiConfigSchema = Joi.object({
   NODE_ENV,
   PORT,
+  DATABASE_URL: Joi.when('NODE_ENV', {
+    is: PROD,
+    then: URI,
+  }),
   POSTGRES_DB: Joi.when('NODE_ENV', {
     is: DEV,
     then: NAME,
