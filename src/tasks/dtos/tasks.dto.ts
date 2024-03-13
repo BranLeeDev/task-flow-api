@@ -1,4 +1,4 @@
-import { PartialType } from '@nestjs/swagger';
+import { OmitType, PartialType } from '@nestjs/swagger';
 import {
   IsDate,
   IsEnum,
@@ -43,4 +43,6 @@ export class CreateTaskDto {
   readonly userId: number;
 }
 
-export class UpdateTaskDto extends PartialType(CreateTaskDto) {}
+export class UpdateTaskDto extends PartialType(
+  OmitType(CreateTaskDto, ['userId']),
+) {}
