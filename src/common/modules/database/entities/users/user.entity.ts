@@ -24,7 +24,11 @@ export class User extends Base {
   })
   lastName?: string;
 
-  @Column({ type: 'varchar', length: 100 })
+  @Column({
+    type: 'varchar',
+    length: 100,
+    unique: true,
+  })
   email: string;
 
   @Exclude()
