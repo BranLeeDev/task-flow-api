@@ -1,5 +1,5 @@
 import { UserRoles } from '@models/user.model';
-import { PartialType } from '@nestjs/swagger';
+import { OmitType, PartialType } from '@nestjs/swagger';
 import {
   IsEmail,
   IsEnum,
@@ -67,4 +67,6 @@ export class FilterUserDto {
   role?: UserRoles;
 }
 
-export class UpdateUserDto extends PartialType(CreateUserDto) {}
+export class UpdateUserDto extends PartialType(
+  OmitType(CreateUserDto, ['password', 'email']),
+) {}
