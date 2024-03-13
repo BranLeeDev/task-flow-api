@@ -45,4 +45,10 @@ export class TasksService {
     const updatedTask = await this.taskRepo.save(taskFound);
     return updatedTask;
   }
+
+  async delete(taskId: number) {
+    const taskToDelete = await this.findTaskById(taskId);
+    await this.taskRepo.delete(taskId);
+    return taskToDelete;
+  }
 }
