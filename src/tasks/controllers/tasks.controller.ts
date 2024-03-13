@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
 import { TasksService } from '../services/tasks.service';
 import { CreateTaskDto } from '../dtos/tasks.dto';
 
@@ -19,5 +26,11 @@ export class TasksController {
       message: 'Task created successfully',
       data: res,
     };
+  }
+
+  @Get(':taskId')
+  async findOne(@Param('taskId', ParseIntPipe) taskId: number) {
+    const res = await this.tasksService.findOne(taskId);
+    return res;
   }
 }
