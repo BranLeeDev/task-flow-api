@@ -32,6 +32,16 @@ export class UsersService {
     return user;
   }
 
+  async findOne(userId: number) {
+    const user = await this.userRepo.findOne({
+      where: { id: userId },
+      relations: ['tasks', 'teams', 'userProjects'],
+    });
+    if (!user)
+      throw new NotFoundException(`Not found the user with id #${userId}`);
+    return user;
+  }
+
   async create(createUserDto: CreateUserDto) {
     const newUser = this.userRepo.create(createUserDto);
     const hashPassword = await bcrypt.hash(newUser.password, 10);

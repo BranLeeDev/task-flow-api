@@ -31,6 +31,12 @@ export class UsersController {
     };
   }
 
+  @Get(':userId')
+  async findOne(@Param('userId', ParseIntPipe) userId: number) {
+    const res = await this.usersService.findOne(userId);
+    return res;
+  }
+
   @Patch(':userId')
   async update(
     @Param('userId', ParseIntPipe) userId: number,
