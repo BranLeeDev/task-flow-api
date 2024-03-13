@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -43,6 +44,15 @@ export class TasksController {
     const res = await this.tasksService.update(taskId, updateTaskDto);
     return {
       message: 'Task updated successfully',
+      data: res,
+    };
+  }
+
+  @Delete(':taskId')
+  async delete(@Param('taskId', ParseIntPipe) taskId: number) {
+    const res = await this.tasksService.delete(taskId);
+    return {
+      message: 'Task deleted successfully',
       data: res,
     };
   }
