@@ -4,10 +4,11 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
 } from '@nestjs/common';
 import { TasksService } from '../services/tasks.service';
-import { CreateTaskDto } from '../dtos/tasks.dto';
+import { CreateTaskDto, UpdateTaskDto } from '../dtos/tasks.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -32,5 +33,17 @@ export class TasksController {
   async findOne(@Param('taskId', ParseIntPipe) taskId: number) {
     const res = await this.tasksService.findOne(taskId);
     return res;
+  }
+
+  @Patch(':taskId')
+  async update(
+    @Param('taskId', ParseIntPipe) taskId: number,
+    @Body() updateTaskDto: UpdateTaskDto,
+  ) {
+    const res = await this.tasksService.update(taskId, updateTaskDto);
+    return {
+      message: 'Task updated successfully',
+      data: res,
+    };
   }
 }
