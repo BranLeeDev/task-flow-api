@@ -4,6 +4,7 @@ import {
   IsEmail,
   IsEnum,
   IsInt,
+  IsNotIn,
   IsNumber,
   IsOptional,
   IsPositive,
@@ -40,7 +41,11 @@ export class CreateUserDto {
   readonly password: string;
 
   @IsOptional()
-  @IsEnum(UserRoles)
+  @IsEnum(UserRoles, {
+    message:
+      'role must be one of the following values: project-manager, team-member',
+  })
+  @IsNotIn([UserRoles.Administrator])
   readonly role?: UserRoles;
 }
 
