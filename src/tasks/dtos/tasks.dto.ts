@@ -38,6 +38,7 @@ export class CreateTaskDto {
   @IsEnum(TaskPriority)
   readonly priority?: TaskPriority;
 
+  @IsNotEmpty()
   @IsInt()
   @IsPositive()
   readonly userId: number;
