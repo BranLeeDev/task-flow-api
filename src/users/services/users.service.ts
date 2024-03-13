@@ -12,9 +12,7 @@ export class UsersService {
   ) {}
 
   async findAll(filterUserDto?: FilterUserDto) {
-    const options: FindManyOptions<User> = {
-      relations: ['tasks'],
-    };
+    const options: FindManyOptions<User> = {};
     if (filterUserDto) {
       const { limit, offset, role } = filterUserDto;
       options.take = limit ?? 20;
