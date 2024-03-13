@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Task } from '@entities/tasks/task.entity';
-import { CreateTaskDto } from '../dtos/tasks.dto';
+import { CreateTaskDto, UpdateTaskDto } from '../dtos/tasks.dto';
 import { UsersService } from 'src/users/services/users.service';
 
 @Injectable()
@@ -37,5 +37,12 @@ export class TasksService {
     newTask.user = await this.usersService.findUserById(createTaskDto.userId);
     const createdTask = await this.taskRepo.save(newTask);
     return createdTask;
+  }
+
+  async update(taskId: number, updateTaskDto: UpdateTaskDto) {
+    const taskFound = await this.findTaskById(taskId);
+    this.taskRepo.merge(taskFound, updateTaskDto);
+    const updatedTask = await this.taskRepo.save(taskFound);
+    return updatedTask;
   }
 }
