@@ -68,5 +68,5 @@ export class FilterUserDto {
 }
 
 export class UpdateUserDto extends PartialType(
-  OmitType(CreateUserDto, ['password', 'email']),
+  OmitType(CreateUserDto, ['password', 'email', 'role']),
 ) {}
