@@ -27,7 +27,7 @@ export class Task extends Base {
   @Column({ type: 'enum', enum: TaskPriority, default: TaskPriority.Medium })
   priority: TaskPriority;
 
-  @ManyToOne(() => User, (user) => user.tasks)
+  @ManyToOne(() => User, (user) => user.tasks, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user: Relation<User>;
 }
