@@ -32,7 +32,7 @@ export class User extends Base {
   email: string;
 
   @Exclude()
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ type: 'varchar', length: 255 })
   password: string;
 
   @Column({
