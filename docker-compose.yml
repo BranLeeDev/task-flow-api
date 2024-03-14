@@ -20,3 +20,14 @@ services:
       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
     ports:
       - ${PGADMIN_HOST_PORT}:${PGADMIN_PORT}
+
+  task-flow-api:
+    container_name: task-flow-api
+    build:
+      target: production
+      context: .
+      args:
+        - PORT=${PORT}
+    ports:
+      - ${PORT}:${PORT}
+    env_file: .env
