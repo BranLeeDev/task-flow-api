@@ -1,4 +1,13 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
+import { TeamsService } from '../services/teams.service';
 
 @Controller('teams')
-export class TeamsController {}
+export class TeamsController {
+  constructor(private readonly teamsService: TeamsService) {}
+
+  @Get()
+  async findAll() {
+    const res = await this.teamsService.findAll();
+    return res;
+  }
+}
