@@ -18,9 +18,6 @@ export class Team extends Base {
   @Column({ type: 'text', nullable: true })
   description: string;
 
-  @Column({ type: 'integer', default: 2, name: 'members_count' })
-  membersCount: number;
-
   @OneToMany(() => Project, (project) => project.team)
   projects: Relation<Project>;
 
