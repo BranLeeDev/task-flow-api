@@ -25,6 +25,7 @@ export class UsersService {
       };
     }
     const usersList = await this.userRepo.find(options);
+    this.logger.log('All users fetched successfully');
     return usersList;
   }
 
@@ -35,7 +36,7 @@ export class UsersService {
       this.logger.error(`Not found the user with id #${userId}`);
       throw new NotFoundException(`Not found the user with id #${userId}`);
     }
-
+    this.logger.log(`User with ID ${userId} fetched successfully`);
     return user;
   }
 
@@ -49,6 +50,7 @@ export class UsersService {
       this.logger.error(`Not found the user with id #${userId}`);
       throw new NotFoundException(`Not found the user with id #${userId}`);
     }
+    this.logger.log(`User with ID ${userId} fetched successfully`);
     return user;
   }
 
@@ -58,6 +60,7 @@ export class UsersService {
     const hashPassword = await bcrypt.hash(newUser.password, 10);
     newUser.password = hashPassword;
     const createdUser = await this.userRepo.save(newUser);
+    this.logger.log(`User created successfully with ID ${createdUser.id}`);
     return createdUser;
   }
 
@@ -66,6 +69,7 @@ export class UsersService {
     const userFound = await this.findUserById(userId);
     this.userRepo.merge(userFound, updateUserDto);
     const updatedUser = await this.userRepo.save(userFound);
+    this.logger.log(`User with ID ${userId} updated successfully`);
     return updatedUser;
   }
 
@@ -73,6 +77,7 @@ export class UsersService {
     this.logger.log(`Deleting user with ID ${userId}`);
     const userToDelete = await this.findUserById(userId);
     await this.userRepo.delete(userId);
+    this.logger.log(`User with ID ${userId} deleted successfully`);
     return userToDelete;
   }
 }
