@@ -44,6 +44,16 @@ export class CreateTaskDto {
   readonly userId: number;
 }
 
+export class FilterTaskDto {
+  @IsOptional()
+  @IsEnum(TaskStatus)
+  readonly status?: TaskStatus;
+
+  @IsOptional()
+  @IsEnum(TaskPriority)
+  readonly priority?: TaskPriority;
+}
+
 export class UpdateTaskDto extends PartialType(
   OmitType(CreateTaskDto, ['userId']),
 ) {}
