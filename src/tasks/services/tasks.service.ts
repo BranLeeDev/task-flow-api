@@ -44,7 +44,7 @@ export class TasksService {
   }
 
   async create(createTaskDto: CreateTaskDto) {
-    this.logger.log('Creating user');
+    this.logger.log('Creating task');
     const newTask = this.taskRepo.create(createTaskDto);
     newTask.user = await this.usersService.findUserById(createTaskDto.userId);
     const createdTask = await this.taskRepo.save(newTask);
