@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
 import { TeamsService } from '../services/teams.service';
 import { CreateTeamDto } from '../dtos/teams.dto';
 
@@ -9,6 +16,12 @@ export class TeamsController {
   @Get()
   async findAll() {
     const res = await this.teamsService.findAll();
+    return res;
+  }
+
+  @Get(':teamId')
+  async findOne(@Param('teamId', ParseIntPipe) teamId: number) {
+    const res = await this.teamsService.findOne(teamId);
     return res;
   }
 

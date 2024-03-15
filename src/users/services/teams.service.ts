@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Team } from '@entities/index';
@@ -17,6 +17,31 @@ export class TeamsService {
     const teamsList = await this.teamsRepo.find();
     this.logger.log('All teams fetched successfully');
     return teamsList;
+  }
+
+  async findTeamById(teamId: number) {
+    this.logger.log(`Fetching team with ID ${teamId} without its relations`);
+    const team = await this.teamsRepo.findOneBy({ id: teamId });
+    if (!team) {
+      this.logger.error(`Not found the team with id #${teamId}`);
+      throw new NotFoundException(`Not found team with id #${teamId}`);
+    }
+    this.logger.log(`Team with ID ${teamId} fetched successfully`);
+    return team;
+  }
+
+  async findOne(teamId: number) {
+    this.logger.log(`Fetching team with ID ${teamId} with its relations`);
+    const team = await this.teamsRepo.findOne({
+      where: { id: teamId },
+      relations: ['projects', 'members'],
+    });
+    if (!team) {
+      this.logger.error(`Not found the team with id #${teamId}`);
+      throw new NotFoundException(`Not found team with id #${teamId}`);
+    }
+    this.logger.log(`Team with ID ${teamId} fetched successfully`);
+    return team;
   }
 
   async create(createTeamDto: CreateTeamDto) {
