@@ -17,6 +17,7 @@ export class TasksService {
   async findAll() {
     this.logger.log('Fetching all tasks');
     const tasksList = await this.taskRepo.find();
+    this.logger.log('All tasks fetched successfully');
     return tasksList;
   }
 
@@ -27,6 +28,7 @@ export class TasksService {
       this.logger.error(`Not found the task with id #${taskId}`);
       throw new NotFoundException(`Not found task with id #${taskId}`);
     }
+    this.logger.log(`Task with ID ${taskId} fetched successfully`);
     return task;
   }
 
@@ -40,6 +42,7 @@ export class TasksService {
       this.logger.error(`Not found the task with id #${taskId}`);
       throw new NotFoundException(`Not found task with id #${taskId}`);
     }
+    this.logger.log(`Task with ID ${taskId} fetched successfully`);
     return task;
   }
 
@@ -48,6 +51,7 @@ export class TasksService {
     const newTask = this.taskRepo.create(createTaskDto);
     newTask.user = await this.usersService.findUserById(createTaskDto.userId);
     const createdTask = await this.taskRepo.save(newTask);
+    this.logger.log(`Task created successfully with ID ${createdTask.id}`);
     return createdTask;
   }
 
@@ -56,6 +60,7 @@ export class TasksService {
     const taskFound = await this.findTaskById(taskId);
     this.taskRepo.merge(taskFound, updateTaskDto);
     const updatedTask = await this.taskRepo.save(taskFound);
+    this.logger.log(`Task with ID ${taskId} updated successfully`);
     return updatedTask;
   }
 
@@ -63,6 +68,7 @@ export class TasksService {
     this.logger.log(`Deleting task with ID ${taskId}`);
     const taskToDelete = await this.findTaskById(taskId);
     await this.taskRepo.delete(taskId);
+    this.logger.log(`Task with ID ${taskId} deleted successfully`);
     return taskToDelete;
   }
 }
