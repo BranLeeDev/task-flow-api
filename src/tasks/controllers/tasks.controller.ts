@@ -7,17 +7,18 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { TasksService } from '../services/tasks.service';
-import { CreateTaskDto, UpdateTaskDto } from '../dtos/tasks.dto';
+import { CreateTaskDto, FilterTaskDto, UpdateTaskDto } from '../dtos/tasks.dto';
 
 @Controller('tasks')
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Get()
-  async findAll() {
-    const res = await this.tasksService.findAll();
+  async findAll(@Query() filterTaskDto: FilterTaskDto) {
+    const res = await this.tasksService.findAll(filterTaskDto);
     return res;
   }
 

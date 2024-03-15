@@ -1,8 +1,8 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindManyOptions, Repository } from 'typeorm';
 import { Task } from '@entities/tasks/task.entity';
-import { CreateTaskDto, UpdateTaskDto } from '../dtos/tasks.dto';
+import { CreateTaskDto, FilterTaskDto, UpdateTaskDto } from '../dtos/tasks.dto';
 import { UsersService } from 'src/users/services/users.service';
 
 @Injectable()
@@ -14,9 +14,17 @@ export class TasksService {
     private readonly usersService: UsersService,
   ) {}
 
-  async findAll() {
+  async findAll(filterTaskDto?: FilterTaskDto) {
     this.logger.log('Fetching all tasks');
-    const tasksList = await this.taskRepo.find();
+    const options: FindManyOptions<Task> = {};
+    if (filterTaskDto) {
+      const { status, priority } = filterTaskDto;
+      options.where = {
+        status,
+        priority,
+      };
+    }
+    const tasksList = await this.taskRepo.find(options);
     this.logger.log('All tasks fetched successfully');
     return tasksList;
   }
