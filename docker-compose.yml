@@ -31,3 +31,6 @@ services:
     ports:
       - ${PORT}:${PORT}
     env_file: .env
+    volumes:
+      - .:/task-flow-api
+    command: sh -c "pnpm migrations:run && dumb-init node dist/main.js"
