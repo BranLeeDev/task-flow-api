@@ -4,10 +4,11 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
 } from '@nestjs/common';
 import { TeamsService } from '../services/teams.service';
-import { CreateTeamDto } from '../dtos/teams.dto';
+import { CreateTeamDto, UpdateTeamDto } from '../dtos/teams.dto';
 
 @Controller('teams')
 export class TeamsController {
@@ -30,6 +31,18 @@ export class TeamsController {
     const res = await this.teamsService.create(createTeamDto);
     return {
       message: 'Team created successfully',
+      data: res,
+    };
+  }
+
+  @Patch(':teamId')
+  async update(
+    @Param('teamId', ParseIntPipe) teamId: number,
+    @Body() updateTeamDto: UpdateTeamDto,
+  ) {
+    const res = await this.teamsService.update(teamId, updateTeamDto);
+    return {
+      message: 'Team updated successfully',
       data: res,
     };
   }

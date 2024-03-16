@@ -2,7 +2,7 @@ import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { Team, User } from '@entities/index';
-import { CreateTeamDto } from '../dtos/teams.dto';
+import { CreateTeamDto, UpdateTeamDto } from '../dtos/teams.dto';
 
 @Injectable()
 export class TeamsService {
@@ -58,6 +58,15 @@ export class TeamsService {
     const createdTeam = await this.teamRepo.save(newTeam);
     this.logger.log(`Team created successfully with ID ${createdTeam.id}`);
     return createdTeam;
+  }
+
+  async update(teamId: number, updateTeamDto: UpdateTeamDto) {
+    this.logger.log(`Updating team with ID ${teamId}`);
+    const teamFound = await this.findTeamById(teamId);
+    this.teamRepo.merge(teamFound, updateTeamDto);
+    const updatedTeam = await this.teamRepo.save(teamFound);
+    this.logger.log(`Team with ID ${teamId} updated successfully`);
+    return updatedTeam;
   }
 
   private async validateUsersExist(idsList: number[]) {
