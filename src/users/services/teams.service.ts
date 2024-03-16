@@ -1,7 +1,7 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Team } from '@entities/index';
+import { In, Repository } from 'typeorm';
+import { Team, User } from '@entities/index';
 import { CreateTeamDto } from '../dtos/teams.dto';
 
 @Injectable()
@@ -10,6 +10,7 @@ export class TeamsService {
 
   constructor(
     @InjectRepository(Team) private readonly teamsRepo: Repository<Team>,
+    @InjectRepository(User) private readonly userRepo: Repository<User>,
   ) {}
 
   async findAll() {
@@ -47,6 +48,12 @@ export class TeamsService {
   async create(createTeamDto: CreateTeamDto) {
     this.logger.log('Creating team');
     const newTeam = this.teamsRepo.create(createTeamDto);
+    if (createTeamDto.membersIds) {
+      const members = await this.userRepo.findBy({
+        id: In(createTeamDto.membersIds),
+      });
+      newTeam.members = members;
+    }
     const createdTeam = await this.teamsRepo.save(newTeam);
     this.logger.log(`Team created successfully with ID ${createdTeam.id}`);
     return createdTeam;
