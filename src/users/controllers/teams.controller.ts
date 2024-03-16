@@ -20,12 +20,6 @@ export class TeamsController {
     return res;
   }
 
-  @Get(':teamId')
-  async findOne(@Param('teamId', ParseIntPipe) teamId: number) {
-    const res = await this.teamsService.findOne(teamId);
-    return res;
-  }
-
   @Post()
   async create(@Body() createTeamDto: CreateTeamDto) {
     const res = await this.teamsService.create(createTeamDto);
@@ -33,6 +27,12 @@ export class TeamsController {
       message: 'Team created successfully',
       data: res,
     };
+  }
+
+  @Get(':teamId')
+  async findOne(@Param('teamId', ParseIntPipe) teamId: number) {
+    const res = await this.teamsService.findOne(teamId);
+    return res;
   }
 
   @Patch(':teamId')
