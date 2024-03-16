@@ -49,11 +49,7 @@ export class TeamsService {
     this.logger.log('Creating team');
     const newTeam = this.teamRepo.create(createTeamDto);
     if (createTeamDto.membersIds) {
-      await this.validateUsersExist(createTeamDto.membersIds);
-      const members = await this.userRepo.findBy({
-        id: In(createTeamDto.membersIds),
-      });
-      newTeam.members = members;
+      await this.addMembersToTeam(newTeam, createTeamDto.membersIds);
     }
     const createdTeam = await this.teamRepo.save(newTeam);
     this.logger.log(`Team created successfully with ID ${createdTeam.id}`);
@@ -63,6 +59,9 @@ export class TeamsService {
   async update(teamId: number, updateTeamDto: UpdateTeamDto) {
     this.logger.log(`Updating team with ID ${teamId}`);
     const teamFound = await this.findTeamById(teamId);
+    if (updateTeamDto.membersIds) {
+      await this.addMembersToTeam(teamFound, updateTeamDto.membersIds);
+    }
     this.teamRepo.merge(teamFound, updateTeamDto);
     const updatedTeam = await this.teamRepo.save(teamFound);
     this.logger.log(`Team with ID ${teamId} updated successfully`);
@@ -75,6 +74,14 @@ export class TeamsService {
     await this.teamRepo.delete(teamId);
     this.logger.log(`Team with ID ${teamId} deleted successfully`);
     return teamToDelete;
+  }
+
+  private async addMembersToTeam(team: Team, idsList: number[]) {
+    await this.validateUsersExist(idsList);
+    const members = await this.userRepo.findBy({
+      id: In(idsList),
+    });
+    team.members = members;
   }
 
   private async validateUsersExist(idsList: number[]) {
