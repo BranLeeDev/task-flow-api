@@ -9,20 +9,20 @@ export class TeamsService {
   private readonly logger = new Logger(TeamsService.name);
 
   constructor(
-    @InjectRepository(Team) private readonly teamsRepo: Repository<Team>,
+    @InjectRepository(Team) private readonly teamRepo: Repository<Team>,
     @InjectRepository(User) private readonly userRepo: Repository<User>,
   ) {}
 
   async findAll() {
     this.logger.log('Fetching all teams');
-    const teamsList = await this.teamsRepo.find();
+    const teamsList = await this.teamRepo.find();
     this.logger.log('All teams fetched successfully');
     return teamsList;
   }
 
   async findTeamById(teamId: number) {
     this.logger.log(`Fetching team with ID ${teamId} without its relations`);
-    const team = await this.teamsRepo.findOneBy({ id: teamId });
+    const team = await this.teamRepo.findOneBy({ id: teamId });
     if (!team) {
       this.logger.error(`Not found the team with id #${teamId}`);
       throw new NotFoundException(`Not found team with id #${teamId}`);
@@ -33,7 +33,7 @@ export class TeamsService {
 
   async findOne(teamId: number) {
     this.logger.log(`Fetching team with ID ${teamId} with its relations`);
-    const team = await this.teamsRepo.findOne({
+    const team = await this.teamRepo.findOne({
       where: { id: teamId },
       relations: ['projects', 'members'],
     });
@@ -47,7 +47,7 @@ export class TeamsService {
 
   async create(createTeamDto: CreateTeamDto) {
     this.logger.log('Creating team');
-    const newTeam = this.teamsRepo.create(createTeamDto);
+    const newTeam = this.teamRepo.create(createTeamDto);
     if (createTeamDto.membersIds) {
       await this.validateUsersExist(createTeamDto.membersIds);
       const members = await this.userRepo.findBy({
@@ -55,7 +55,7 @@ export class TeamsService {
       });
       newTeam.members = members;
     }
-    const createdTeam = await this.teamsRepo.save(newTeam);
+    const createdTeam = await this.teamRepo.save(newTeam);
     this.logger.log(`Team created successfully with ID ${createdTeam.id}`);
     return createdTeam;
   }
