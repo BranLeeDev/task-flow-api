@@ -26,7 +26,7 @@ export class CreateTeamDto {
   @ArrayNotEmpty()
   @ArrayUnique()
   @IsInt({ each: true })
-  readonly members: number[];
+  readonly membersIds: number[];
 }
 
 export class UpdateTeamDto extends PartialType(CreateTeamDto) {}
