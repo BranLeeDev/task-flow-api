@@ -69,6 +69,14 @@ export class TeamsService {
     return updatedTeam;
   }
 
+  async delete(teamId: number) {
+    this.logger.log(`Deleting team with ID ${teamId}`);
+    const teamToDelete = await this.findTeamById(teamId);
+    await this.teamRepo.delete(teamId);
+    this.logger.log(`Team with ID ${teamId} deleted successfully`);
+    return teamToDelete;
+  }
+
   private async validateUsersExist(idsList: number[]) {
     this.logger.log('Validating users existence');
     for (const id of idsList) {

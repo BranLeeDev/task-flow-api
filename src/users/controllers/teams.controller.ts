@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -43,6 +44,15 @@ export class TeamsController {
     const res = await this.teamsService.update(teamId, updateTeamDto);
     return {
       message: 'Team updated successfully',
+      data: res,
+    };
+  }
+
+  @Delete(':teamId')
+  async delete(@Param('teamId', ParseIntPipe) teamId: number) {
+    const res = await this.teamsService.delete(teamId);
+    return {
+      message: 'Team deleted successfully',
       data: res,
     };
   }
