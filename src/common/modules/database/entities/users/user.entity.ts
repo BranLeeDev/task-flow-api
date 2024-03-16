@@ -1,4 +1,11 @@
-import { Column, Entity, ManyToMany, OneToMany, Relation } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  OneToMany,
+  OneToOne,
+  Relation,
+} from 'typeorm';
 import { UserRoles } from '../../models/user.model';
 import { Base } from '../shared/base.entity';
 import { Project } from '../tasks/project.entity';
@@ -41,6 +48,9 @@ export class User extends Base {
     default: UserRoles.TeamMember,
   })
   role: UserRoles;
+
+  @OneToOne(() => Team, (team) => team.leader)
+  leader: Team;
 
   @OneToMany(() => Project, (project) => project.manager)
   managerProjects: Relation<Project[]>;

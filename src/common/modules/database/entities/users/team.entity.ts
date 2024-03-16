@@ -1,9 +1,11 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   OneToMany,
+  OneToOne,
   Relation,
 } from 'typeorm';
 import { Base } from '../shared/base.entity';
@@ -20,6 +22,10 @@ export class Team extends Base {
 
   @OneToMany(() => Project, (project) => project.team)
   projects: Relation<Project>;
+
+  @OneToOne(() => User, (user) => user.leader)
+  @JoinColumn({ name: 'leader_id' })
+  leader: Relation<User>;
 
   @ManyToMany(() => User, (user) => user.teams)
   @JoinTable({
