@@ -49,6 +49,7 @@ export class TeamsService {
     this.logger.log('Creating team');
     const newTeam = this.teamsRepo.create(createTeamDto);
     if (createTeamDto.membersIds) {
+      await this.validateUsersExist(createTeamDto.membersIds);
       const members = await this.userRepo.findBy({
         id: In(createTeamDto.membersIds),
       });
@@ -57,5 +58,17 @@ export class TeamsService {
     const createdTeam = await this.teamsRepo.save(newTeam);
     this.logger.log(`Team created successfully with ID ${createdTeam.id}`);
     return createdTeam;
+  }
+
+  private async validateUsersExist(idsList: number[]) {
+    this.logger.log('Validating users existence');
+    for (const id of idsList) {
+      const user = await this.userRepo.findBy({ id });
+      if (!user) {
+        this.logger.error(`Not found the user with id #${id}`);
+        throw new NotFoundException(`Not found the user with id #${id}`);
+      }
+    }
+    this.logger.log('All users exist');
   }
 }
