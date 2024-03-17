@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { Team, User } from '@entities/index';
 import { CreateTeamDto, UpdateTeamDto } from '../dtos/teams.dto';
+import { UsersService } from './users.service';
 
 @Injectable()
 export class TeamsService {
@@ -11,6 +12,7 @@ export class TeamsService {
   constructor(
     @InjectRepository(Team) private readonly teamRepo: Repository<Team>,
     @InjectRepository(User) private readonly userRepo: Repository<User>,
+    private readonly usersService: UsersService,
   ) {}
 
   async findAll() {
@@ -51,6 +53,9 @@ export class TeamsService {
     if (createTeamDto.membersIds) {
       await this.addMembersToTeam(newTeam, createTeamDto.membersIds);
     }
+    newTeam.leader = await this.usersService.findUserById(
+      createTeamDto.leaderId,
+    );
     const createdTeam = await this.teamRepo.save(newTeam);
     this.logger.log(`Team created successfully with ID ${createdTeam.id}`);
     return createdTeam;
@@ -59,6 +64,12 @@ export class TeamsService {
   async update(teamId: number, updateTeamDto: UpdateTeamDto) {
     this.logger.log(`Updating team with ID ${teamId}`);
     const teamFound = await this.findTeamById(teamId);
+    if (updateTeamDto.leaderId) {
+      const leader = await this.usersService.findUserById(
+        updateTeamDto.leaderId,
+      );
+      teamFound.leader = leader;
+    }
     if (updateTeamDto.membersIds) {
       await this.addMembersToTeam(teamFound, updateTeamDto.membersIds);
     }
