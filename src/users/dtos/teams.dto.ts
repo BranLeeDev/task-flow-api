@@ -21,13 +21,13 @@ export class CreateTeamDto {
   @IsOptional()
   @IsString()
   @MinLength(15)
-  readonly description: string;
+  readonly description?: string;
 
   @IsOptional()
   @ArrayNotEmpty()
   @ArrayUnique()
   @IsInt({ each: true })
-  readonly membersIds: number[];
+  readonly membersIds?: number[];
 
   @IsNotEmpty()
   @IsInt()
