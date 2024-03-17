@@ -37,7 +37,7 @@ export class TeamsService {
     this.logger.log(`Fetching team with ID ${teamId} with its relations`);
     const team = await this.teamRepo.findOne({
       where: { id: teamId },
-      relations: ['projects', 'members'],
+      relations: ['projects', 'members', 'leader'],
     });
     if (!team) {
       this.logger.error(`Not found the team with id #${teamId}`);
