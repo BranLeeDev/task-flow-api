@@ -1,11 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  JoinTable,
-  ManyToOne,
-  Relation,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, Relation } from 'typeorm';
 import { Base } from '../shared/base.entity';
 import { ProjectPriority, ProjectStatus } from '../../models/project.model';
 import { User } from '../users/user.entity';
@@ -53,8 +46,4 @@ export class Project extends Base {
   @ManyToOne(() => Team, (team) => team.projects)
   @JoinColumn({ name: 'team_id' })
   team: Relation<Team>;
-
-  @ManyToOne(() => User, (user) => user.userProjects)
-  @JoinTable({ name: 'user_id' })
-  user: Relation<User>;
 }
