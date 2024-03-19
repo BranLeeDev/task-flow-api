@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Logger } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { CreateProjectDto } from '../dtos/projects.dto';
+import { CreateProjectDto, UpdateProjectDto } from '../dtos/projects.dto';
 import { Project } from '@entities/index';
 import { UsersService } from 'src/users/services/users.service';
 import { TeamsService } from 'src/users/services/teams.service';
@@ -64,5 +64,24 @@ export class ProjectsService {
     const createdProject = await this.projectRepo.save(newProject);
     this.logger.log('Project created successfully with ID');
     return createdProject;
+  }
+
+  async update(projectId: number, updateProjectDto: UpdateProjectDto) {
+    this.logger.log(`Updating project with ID ${projectId}`);
+    const projectFound = await this.findProjectById(projectId);
+    if (updateProjectDto.managerId) {
+      projectFound.manager = await this.usersService.findUserById(
+        updateProjectDto.managerId,
+      );
+    }
+    if (updateProjectDto.teamId) {
+      projectFound.team = await this.teamsService.findTeamById(
+        updateProjectDto.teamId,
+      );
+    }
+    this.projectRepo.merge(projectFound, updateProjectDto);
+    const updatedProject = await this.projectRepo.save(projectFound);
+    this.logger.log(`Project with ID ${projectId} updated successfully`);
+    return updatedProject;
   }
 }

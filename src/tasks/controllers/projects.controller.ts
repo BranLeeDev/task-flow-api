@@ -4,10 +4,11 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
 } from '@nestjs/common';
 import { ProjectsService } from '../services/projects.service';
-import { CreateProjectDto } from '../dtos/projects.dto';
+import { CreateProjectDto, UpdateProjectDto } from '../dtos/projects.dto';
 
 @Controller('projects')
 export class ProjectsController {
@@ -32,5 +33,17 @@ export class ProjectsController {
   async findOne(@Param('projectId', ParseIntPipe) projectId: number) {
     const res = await this.projectsService.findOne(projectId);
     return res;
+  }
+
+  @Patch(':projectId')
+  async update(
+    @Param('projectId', ParseIntPipe) projectId: number,
+    @Body() updateProjectDto: UpdateProjectDto,
+  ) {
+    const res = await this.projectsService.update(projectId, updateProjectDto);
+    return {
+      message: 'Project updated successfully',
+      data: res,
+    };
   }
 }
