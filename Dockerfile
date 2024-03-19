@@ -26,7 +26,6 @@ RUN pnpm build && \
 
 FROM base AS production
 
-ENV NODE_ENV=production
 ENV USER=node
 
 COPY --from=build /usr/bin/dumb-init /usr/bin/dumb-init
