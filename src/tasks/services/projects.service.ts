@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Logger } from '@nestjs/common';
 import { Repository } from 'typeorm';
@@ -23,6 +23,33 @@ export class ProjectsService {
     const projectsList = await this.projectRepo.find();
     this.logger.log('All projects fetched successfully');
     return projectsList;
+  }
+
+  async findProjectById(projectId: number) {
+    this.logger.log(
+      `Fetching project with ID ${projectId} without its relations`,
+    );
+    const project = await this.projectRepo.findOneBy({ id: projectId });
+    if (!project) {
+      this.logger.error(`Not found the project with id #${projectId}`);
+      throw new NotFoundException(`Not found project with id #${projectId}`);
+    }
+    this.logger.log(`Project with ID ${projectId} fetched successfully`);
+    return project;
+  }
+
+  async findOne(projectId: number) {
+    this.logger.log(`Fetching project with ID ${projectId} with its relations`);
+    const project = await this.projectRepo.findOne({
+      where: { id: projectId },
+      relations: ['manager', 'team'],
+    });
+    if (!project) {
+      this.logger.error(`Not found the project with id #${projectId}`);
+      throw new NotFoundException(`Not found project with id #${projectId}`);
+    }
+    this.logger.log(`Project with ID ${projectId} fetched successfully`);
+    return project;
   }
 
   async create(createProjectDto: CreateProjectDto) {
