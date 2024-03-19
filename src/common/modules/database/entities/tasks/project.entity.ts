@@ -20,7 +20,11 @@ export class Project extends Base {
   @Column({ type: 'text', nullable: true })
   description: string;
 
-  @Column({ type: 'timestamptz', name: 'start_date' })
+  @Column({
+    type: 'timestamptz',
+    name: 'start_date',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   startDate: Date;
 
   @Column({ type: 'timestamptz', name: 'due_date' })
