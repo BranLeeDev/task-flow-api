@@ -15,6 +15,6 @@ import { TeamsController } from './controllers/teams.controller';
   imports: [TypeOrmModule.forFeature([User, Team])],
   providers: [UsersService, TeamsService],
   controllers: [UsersController, TeamsController],
-  exports: [UsersService],
+  exports: [UsersService, TeamsService],
 })
 export class UsersModule {}
