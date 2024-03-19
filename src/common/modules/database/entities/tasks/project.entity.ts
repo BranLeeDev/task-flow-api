@@ -56,5 +56,5 @@ export class Project extends Base {
 
   @ManyToOne(() => User, (user) => user.userProjects)
   @JoinTable({ name: 'user_id' })
-  user: Promise<User>;
+  user: Relation<User>;
 }
