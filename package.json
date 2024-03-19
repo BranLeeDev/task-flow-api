@@ -23,7 +23,8 @@
     "migrations:run": "npm run typeorm -- migration:run",
     "migrations:show": "npm run typeorm -- migration:show",
     "migrations:revert": "npm run typeorm -- migration:revert",
-    "migrations:drop": "npm run typeorm -- schema:drop"
+    "migrations:drop": "npm run typeorm -- schema:drop",
+    "migrate:start:prod": "pnpm migrations:run && pnpm start:prod"
   },
   "dependencies": {
     "@nestjs/common": "^10.3.3",
