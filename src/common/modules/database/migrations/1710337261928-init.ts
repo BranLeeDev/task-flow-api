@@ -5,6 +5,21 @@ export class Init1710337261928 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
+      `CREATE TYPE user_role_enum AS ENUM ('team-member', 'project-manager', 'administrator')`,
+    );
+    await queryRunner.query(
+      `CREATE TYPE projects_status_enum AS ENUM ('in-progress', 'completed', 'cancelled')`,
+    );
+    await queryRunner.query(
+      `CREATE TYPE projects_priority_enum AS ENUM ('low', 'medium', 'high')`,
+    );
+    await queryRunner.query(
+      `CREATE TYPE tasks_status_enum AS ENUM ('pending', 'in-progress', 'completed', 'cancelled')`,
+    );
+    await queryRunner.query(
+      `CREATE TYPE tasks_priority_enum AS ENUM ('low', 'medium', 'high')`,
+    );
+    await queryRunner.query(
       `CREATE TABLE "teams" ("id" SERIAL NOT NULL, "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updated_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "name" character varying(100) NOT NULL, "description" text, "members_count" integer NOT NULL DEFAULT '2', CONSTRAINT "PK_7e5523774a38b08a6236d322403" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
