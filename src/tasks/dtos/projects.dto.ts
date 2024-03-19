@@ -1,8 +1,7 @@
 import { ProjectPriority, ProjectStatus } from '@models/project.model';
-import { OmitType, PartialType } from '@nestjs/swagger';
+import { PartialType } from '@nestjs/swagger';
 import {
   IsDate,
-  IsDecimal,
   IsEnum,
   IsInt,
   IsNotEmpty,
@@ -15,7 +14,6 @@ import {
   Min,
   MinDate,
   MinLength,
-  ValidateIf,
 } from 'class-validator';
 
 export class CreateProjectDto {
@@ -35,42 +33,31 @@ export class CreateProjectDto {
   @MinDate(new Date())
   readonly dueDate: Date;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsEnum(ProjectStatus)
   readonly status?: ProjectStatus;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsEnum(ProjectPriority)
   readonly priority?: ProjectPriority;
 
   @IsNotEmpty()
-  @IsNumber()
-  @IsDecimal()
+  @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0.01)
   @Max(999999.99)
   readonly budget: number;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsPositive()
   @IsInt()
   @IsNumber()
-  readonly managerId?: number;
+  readonly managerId: number;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsNumber()
   @IsInt()
   @IsPositive()
-  @ValidateIf((project) => !project.userId)
-  readonly teamId?: number;
-
-  @IsOptional()
-  @IsNumber()
-  @IsInt()
-  @IsPositive()
-  @ValidateIf((project) => !project.teamId)
-  readonly userId?: number;
+  readonly teamId: number;
 }
 
-export class UpdateProjectDto extends PartialType(
-  OmitType(CreateProjectDto, ['userId', 'teamId', 'managerId']),
-) {}
+export class UpdateProjectDto extends PartialType(CreateProjectDto) {}

@@ -1,8 +1,11 @@
-import { Project } from '@entities/index';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Logger } from '@nestjs/common';
 import { Repository } from 'typeorm';
+import { CreateProjectDto } from '../dtos/projects.dto';
+import { Project } from '@entities/index';
+import { UsersService } from 'src/users/services/users.service';
+import { TeamsService } from 'src/users/services/teams.service';
 
 @Injectable()
 export class ProjectsService {
@@ -11,6 +14,8 @@ export class ProjectsService {
   constructor(
     @InjectRepository(Project)
     private readonly projectsRepo: Repository<Project>,
+    private readonly usersService: UsersService,
+    private readonly teamsService: TeamsService,
   ) {}
 
   async findAll() {
@@ -18,5 +23,19 @@ export class ProjectsService {
     const projectsList = await this.projectsRepo.find();
     this.logger.log('All projects fetched successfully');
     return projectsList;
+  }
+
+  async create(createProjectDto: CreateProjectDto) {
+    this.logger.log('Creating project');
+    const newProject = this.projectsRepo.create(createProjectDto);
+    newProject.manager = await this.usersService.findUserById(
+      createProjectDto.managerId,
+    );
+    newProject.team = await this.teamsService.findTeamById(
+      createProjectDto.teamId,
+    );
+    const createdProject = await this.projectsRepo.save(newProject);
+    this.logger.log('Project created successfully with ID');
+    return createdProject;
   }
 }
