@@ -84,4 +84,12 @@ export class ProjectsService {
     this.logger.log(`Project with ID ${projectId} updated successfully`);
     return updatedProject;
   }
+
+  async delete(projectId: number) {
+    this.logger.log(`Deleting task with ID ${projectId}`);
+    const projectToDelete = await this.findProjectById(projectId);
+    await this.projectRepo.delete(projectId);
+    this.logger.log(`Project with ID ${projectId} deleted successfully`);
+    return projectToDelete;
+  }
 }

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -43,6 +44,15 @@ export class ProjectsController {
     const res = await this.projectsService.update(projectId, updateProjectDto);
     return {
       message: 'Project updated successfully',
+      data: res,
+    };
+  }
+
+  @Delete(':projectId')
+  async delete(@Param('projectId', ParseIntPipe) projectId: number) {
+    const res = await this.projectsService.delete(projectId);
+    return {
+      message: 'Project deleted successfully',
       data: res,
     };
   }
