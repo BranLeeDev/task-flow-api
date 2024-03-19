@@ -58,7 +58,7 @@ export class User extends Base {
   @OneToMany(() => Task, (task) => task.user)
   tasks: Relation<Task[]>;
 
-  @ManyToMany(() => Project, (project) => project.users)
+  @OneToMany(() => Project, (project) => project.user)
   userProjects: Relation<Project[]>;
 
   @ManyToMany(() => Team, (team) => team.members)

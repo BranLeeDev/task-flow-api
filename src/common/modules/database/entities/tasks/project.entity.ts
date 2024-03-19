@@ -3,7 +3,6 @@ import {
   Entity,
   JoinColumn,
   JoinTable,
-  ManyToMany,
   ManyToOne,
   Relation,
 } from 'typeorm';
@@ -55,17 +54,7 @@ export class Project extends Base {
   @JoinColumn({ name: 'team_id' })
   team: Relation<Team>;
 
-  @ManyToMany(() => User, (user) => user.userProjects)
-  @JoinTable({
-    name: 'projects_users',
-    joinColumn: {
-      name: 'project_id',
-      referencedColumnName: 'id',
-    },
-    inverseJoinColumn: {
-      name: 'user_id',
-      referencedColumnName: 'id',
-    },
-  })
-  users: Promise<User[]>;
+  @ManyToOne(() => User, (user) => user.userProjects)
+  @JoinTable({ name: 'user_id' })
+  user: Promise<User>;
 }
