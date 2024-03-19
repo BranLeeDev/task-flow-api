@@ -44,7 +44,7 @@ export class UsersService {
     this.logger.log(`Fetching user with ID ${userId} with its relations`);
     const user = await this.userRepo.findOne({
       where: { id: userId },
-      relations: ['tasks', 'teams', 'userProjects'],
+      relations: ['tasks', 'teams', 'projects'],
     });
     if (!user) {
       this.logger.error(`Not found the user with id #${userId}`);

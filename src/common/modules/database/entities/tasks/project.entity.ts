@@ -39,7 +39,7 @@ export class Project extends Base {
   @Column({ type: 'decimal' })
   budget: number;
 
-  @ManyToOne(() => User, (user) => user.managerProjects)
+  @ManyToOne(() => User, (user) => user.projects)
   @JoinColumn({ name: 'manager_id' })
   manager: Relation<User>;
 
