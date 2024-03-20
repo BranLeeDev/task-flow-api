@@ -49,6 +49,14 @@ export class User extends Base {
   })
   role: UserRoles;
 
+  @Exclude()
+  @Column({
+    type: 'varchar',
+    nullable: true,
+    name: 'current_hashed_refresh_token',
+  })
+  currentHashedRefreshToken?: string;
+
   @OneToOne(() => Team, (team) => team.leader)
   leader: Team;
 
