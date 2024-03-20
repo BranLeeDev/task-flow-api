@@ -3,16 +3,21 @@ import {
   NestFastifyApplication,
   FastifyAdapter,
 } from '@nestjs/platform-fastify';
-import { Logger } from 'nestjs-pino';
-import { AppModule } from './app.module';
-import { PORT } from '@env/variables.env';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { Logger } from 'nestjs-pino';
+import fastifyCookie from '@fastify/cookie';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter(),
   );
+  const configService = app.get(ConfigService);
+  await app.register(fastifyCookie, {
+    secret: configService.get('COOKIE_SECRET'),
+  });
   app.useLogger(app.get(Logger));
   app.useGlobalPipes(
     new ValidationPipe({
@@ -25,6 +30,6 @@ async function bootstrap() {
   );
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.setGlobalPrefix('api/v1');
-  await app.listen(PORT, '0.0.0.0');
+  await app.listen(Number(configService.get('PORT')), '0.0.0.0');
 }
 bootstrap();
