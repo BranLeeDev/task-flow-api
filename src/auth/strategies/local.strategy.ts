@@ -2,7 +2,6 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
 import { LoginService } from '../services/login.service';
-import { SignInDto } from '../dtos/login.dto';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
@@ -13,8 +12,8 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
     });
   }
 
-  async validate(signInDto: SignInDto) {
-    const user = this.loginService.validateUser(signInDto);
+  async validate(email: string, password: string) {
+    const user = await this.loginService.validateUser({ email, password });
     if (!user)
       throw new UnauthorizedException('Invalid credentials, please try again');
     return user;
