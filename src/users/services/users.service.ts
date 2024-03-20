@@ -65,6 +65,13 @@ export class UsersService {
     return user;
   }
 
+  async setCurrentRefreshToken(refreshToken: string, userId: number) {
+    const currentHashedRefreshToken = await bcrypt.hash(refreshToken, 10);
+    await this.userRepo.update(userId, {
+      currentHashedRefreshToken,
+    });
+  }
+
   async create(createUserDto: CreateUserDto) {
     this.logger.log('Creating user');
     const newUser = this.userRepo.create(createUserDto);
