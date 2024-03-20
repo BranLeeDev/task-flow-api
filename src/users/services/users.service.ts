@@ -40,6 +40,17 @@ export class UsersService {
     return user;
   }
 
+  async findUserByEmail(email: string) {
+    this.logger.log(`Fetching user with email: ${email}`);
+    const user = await this.userRepo.findOneBy({ email });
+    if (!user) {
+      this.logger.error(`User with email: ${email} not found`);
+      throw new NotFoundException(`User with email: ${email} not found`);
+    }
+    this.logger.log(`User with email: ${email} fetched successfully`);
+    return user;
+  }
+
   async findOne(userId: number) {
     this.logger.log(`Fetching user with ID ${userId} with its relations`);
     const user = await this.userRepo.findOne({
