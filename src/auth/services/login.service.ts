@@ -34,7 +34,8 @@ export class LoginService {
       secret: accessTokenSecret,
       expiresIn: `${accessTokenExpirationTime}h`,
     });
-    const cookie = `Authentication=${token}; HttpOnly; Path=/; Max-Age=${accessTokenExpirationTime}`;
+    const secure = this.configService.isProd ? 'Secure' : '';
+    const cookie = `Authentication=${token}; HttpOnly; Path=/; Max-Age=${accessTokenExpirationTime}; ${secure}`;
     return cookie;
   }
 
@@ -46,7 +47,8 @@ export class LoginService {
       secret: refreshTokenSecret,
       expiresIn: `${refreshTokenExpirationTime}h`,
     });
-    const cookie = `Refresh=${token}; HttpOnly; Path=/; Max-Age=${refreshTokenExpirationTime}`;
+    const secure = this.configService.isProd ? 'Secure' : '';
+    const cookie = `Refresh=${token}; HttpOnly; Path=/; Max-Age=${refreshTokenExpirationTime}; ${secure}`;
     return {
       cookie,
       token,
