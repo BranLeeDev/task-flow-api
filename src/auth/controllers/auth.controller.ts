@@ -1,9 +1,9 @@
-import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
+import { Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FastifyReply } from 'fastify';
-import { SignInDto } from '../dtos/login.dto';
 import { LoginService } from '../services/login.service';
 import { UsersService } from 'src/users/services/users.service';
+import { FastifyRequest } from '../models/request.model';
 
 @Controller('auth')
 export class AuthController {
@@ -15,10 +15,10 @@ export class AuthController {
   @UseGuards(AuthGuard('local'))
   @Post('login')
   async signIn(
-    @Body() signInDto: SignInDto,
+    @Req() req: FastifyRequest,
     @Res({ passthrough: true }) res: FastifyReply,
   ) {
-    const user = await this.usersService.findUserByEmail(signInDto.email);
+    const { user } = req;
     const accessTokenCookie =
       this.loginService.getCookieWithJwtAccessToken(user);
     const { cookie: refreshTokenCookie, token: refreshToken } =
