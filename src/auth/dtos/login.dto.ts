@@ -9,10 +9,10 @@ export class SignInDto {
   @IsString()
   @MinLength(11)
   @IsEmail()
-  email: string;
+  readonly email: string;
 
   @IsString()
   @MinLength(8)
   @IsStrongPassword()
-  password: string;
+  readonly password: string;
 }
