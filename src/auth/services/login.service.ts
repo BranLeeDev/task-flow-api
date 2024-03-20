@@ -32,7 +32,7 @@ export class LoginService {
     const payload: PayloadToken = { role: user.role, sub: user.id };
     const token = this.jwtService.sign(payload, {
       secret: accessTokenSecret,
-      expiresIn: `${accessTokenExpirationTime}h`,
+      expiresIn: `${accessTokenExpirationTime}s`,
     });
     const secure = this.configService.isProd ? 'Secure' : '';
     const cookie = `Authentication=${token}; HttpOnly; Path=/; Max-Age=${accessTokenExpirationTime}; ${secure}`;
@@ -45,7 +45,7 @@ export class LoginService {
     const payload: PayloadToken = { role: user.role, sub: user.id };
     const token = this.jwtService.sign(payload, {
       secret: refreshTokenSecret,
-      expiresIn: `${refreshTokenExpirationTime}h`,
+      expiresIn: `${refreshTokenExpirationTime}s`,
     });
     const secure = this.configService.isProd ? 'Secure' : '';
     const cookie = `Refresh=${token}; HttpOnly; Path=/; Max-Age=${refreshTokenExpirationTime}; ${secure}`;
