@@ -53,7 +53,13 @@ export const joiConfigSchema = Joi.object({
     then: PORT,
   }),
   JWT_ACCESS_TOKEN_SECRET: Joi.string().required(),
-  JWT_ACCESS_TOKEN_EXPIRATION_TIME: Joi.string().required(),
+  JWT_ACCESS_TOKEN_EXPIRATION_TIME: Joi.number()
+    .integer()
+    .positive()
+    .required(),
   JWT_REFRESH_TOKEN_SECRET: Joi.string().required(),
-  JWT_REFRESH_TOKEN_EXPIRATION_TIME: Joi.string().required(),
+  JWT_REFRESH_TOKEN_EXPIRATION_TIME: Joi.number()
+    .positive()
+    .integer()
+    .required(),
 });
