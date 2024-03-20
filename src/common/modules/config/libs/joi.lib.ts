@@ -62,4 +62,5 @@ export const joiConfigSchema = Joi.object({
     .positive()
     .integer()
     .required(),
+  COOKIE_SECRET: Joi.string().required(),
 });
