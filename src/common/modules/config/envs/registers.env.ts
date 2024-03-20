@@ -9,6 +9,13 @@ export default registerAs('registers', () => {
           url: process.env.DATABASE_URL,
         },
       },
+      jwt: {
+        accessTokenSecret: process.env.JWT_ACCESS_TOKEN_SECRET,
+        accessTokenExpirationTime: process.env.JWT_ACCESS_TOKEN_EXPIRATION_TIME,
+        refreshTokenSecret: process.env.JWT_REFRESH_TOKEN_SECRET,
+        refreshTokenExpirationTime:
+          process.env.JWT_REFRESH_TOKEN_EXPIRATION_TIME,
+      },
     };
   }
 
@@ -21,6 +28,12 @@ export default registerAs('registers', () => {
         port: process.env.POSTGRES_PORT,
         name: process.env.POSTGRES_DB,
       },
+    },
+    jwt: {
+      accessTokenSecret: process.env.JWT_ACCESS_TOKEN_SECRET,
+      accessTokenExpirationTime: process.env.JWT_ACCESS_TOKEN_EXPIRATION_TIME,
+      refreshTokenSecret: process.env.JWT_REFRESH_TOKEN_SECRET,
+      refreshTokenExpirationTime: process.env.JWT_REFRESH_TOKEN_EXPIRATION_TIME,
     },
   };
 });
