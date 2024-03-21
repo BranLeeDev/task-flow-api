@@ -1,4 +1,9 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -70,6 +75,21 @@ export class UsersService {
     await this.userRepo.update(userId, {
       currentHashedRefreshToken,
     });
+  }
+
+  async getUserIfRefreshTokenMatches(refreshToken: string, userId: number) {
+    const user = await this.findUserById(userId);
+    if (!user.currentHashedRefreshToken) {
+      throw new NotFoundException('User does not have a refresh token');
+    }
+    const isRefreshTokenMatching = await bcrypt.compare(
+      refreshToken,
+      user.currentHashedRefreshToken,
+    );
+    if (!isRefreshTokenMatching) {
+      throw new BadRequestException('Refresh token does not match');
+    }
+    return user;
   }
 
   async create(createUserDto: CreateUserDto) {
