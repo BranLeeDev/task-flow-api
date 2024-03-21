@@ -78,8 +78,10 @@ export class UsersService {
   }
 
   async getUserIfRefreshTokenMatches(refreshToken: string, userId: number) {
+    this.logger.log('Attempting to validate refresh token...');
     const user = await this.findUserById(userId);
     if (!user.currentHashedRefreshToken) {
+      this.logger.error('User does not have a refresh token');
       throw new NotFoundException('User does not have a refresh token');
     }
     const isRefreshTokenMatching = await bcrypt.compare(
@@ -87,8 +89,10 @@ export class UsersService {
       user.currentHashedRefreshToken,
     );
     if (!isRefreshTokenMatching) {
+      this.logger.error('Refresh token does not match');
       throw new BadRequestException('Refresh token does not match');
     }
+    this.logger.log('Refresh token validation successful');
     return user;
   }
 
