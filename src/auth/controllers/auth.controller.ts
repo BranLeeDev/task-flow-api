@@ -1,4 +1,4 @@
-import { Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FastifyReply } from 'fastify';
 import { LoginService } from '../services/login.service';
@@ -32,5 +32,18 @@ export class AuthController {
         refreshTokenCookie,
       },
     };
+  }
+
+  @UseGuards(AuthGuard('jwt-refresh-token'))
+  @Get('refresh')
+  refresh(
+    @Req() req: FastifyRequest,
+    @Res({ passthrough: true }) res: FastifyReply,
+  ) {
+    const accessTokenCookie = this.loginService.getCookieWithJwtAccessToken(
+      req.user,
+    );
+    res.header('set-cookie', accessTokenCookie);
+    return req.user;
   }
 }
