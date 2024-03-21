@@ -55,7 +55,7 @@ export class User extends Base {
     nullable: true,
     name: 'current_hashed_refresh_token',
   })
-  currentHashedRefreshToken?: string;
+  currentHashedRefreshToken?: string | null;
 
   @OneToOne(() => Team, (team) => team.leader)
   leader: Team;
