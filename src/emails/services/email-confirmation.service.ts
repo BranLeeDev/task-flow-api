@@ -44,4 +44,21 @@ export class EmailConfirmationService {
     }
     await this.usersService.markEmailAsConfirmed(email);
   }
+
+  async decodeConfirmationToken(token: string) {
+    try {
+      const payload = await this.jwtService.verify(token, {
+        secret: this.configService.jwt.verificationTokenSecret,
+      });
+      if (typeof payload === 'object' && 'email' in payload) {
+        return payload.email;
+      }
+      throw new BadRequestException();
+    } catch (error) {
+      if (error?.name === 'TokenExpiredError') {
+        throw new BadRequestException('Email confirmation token expired');
+      }
+      throw new BadRequestException('Bad confirmation token');
+    }
+  }
 }
