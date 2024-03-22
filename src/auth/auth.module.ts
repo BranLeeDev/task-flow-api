@@ -10,9 +10,10 @@ import { LogoutService } from './services/logout.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { EmailsModule } from 'src/emails/emails.module';
 
 @Module({
-  imports: [UsersModule, PassportModule, JwtModule],
+  imports: [UsersModule, PassportModule, JwtModule, EmailsModule],
   providers: [
     {
       provide: APP_GUARD,
