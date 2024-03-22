@@ -1,9 +1,10 @@
 import registersEnv from '@env/registers.env';
 import { MailerService } from '@nestjs-modules/mailer';
-import { Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { VerificationToken } from 'src/auth/models/token.model';
+import { UsersService } from 'src/users/services/users.service';
 
 @Injectable()
 export class EmailConfirmationService {
@@ -12,6 +13,7 @@ export class EmailConfirmationService {
     private readonly mailerService: MailerService,
     @Inject(registersEnv.KEY)
     private readonly configService: ConfigType<typeof registersEnv>,
+    private readonly usersService: UsersService,
   ) {}
 
   async sendVerificationLink(email: string) {
@@ -33,5 +35,13 @@ export class EmailConfirmationService {
         url,
       },
     });
+  }
+
+  async confirmEmail(email: string) {
+    const user = await this.usersService.findUserByEmail(email);
+    if (user.isEmailConfirmed) {
+      throw new BadRequestException('Email already confirmed');
+    }
+    await this.usersService.markEmailAsConfirmed(email);
   }
 }
