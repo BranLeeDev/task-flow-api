@@ -27,7 +27,7 @@ export default registerAs('registers', () => {
       service: process.env.EMAIL_SERVICE,
       user: process.env.EMAIL_USER,
       password: process.env.EMAIL_PASSWORD,
+      confirmationUrl: process.env.EMAIL_CONFIRMATION_URL,
     },
-    emailConfirmationUrl: process.env.EMAIL_CONFIRMATION_URL,
   };
 });
