@@ -1,4 +1,7 @@
 import { Module } from '@nestjs/common';
+import { EmailConfirmationService } from './services/email-confirmation.service';
 
-@Module({})
+@Module({
+  providers: [EmailConfirmationService],
+})
 export class EmailsModule {}
