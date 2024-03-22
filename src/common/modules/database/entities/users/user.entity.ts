@@ -38,6 +38,13 @@ export class User extends Base {
   })
   email: string;
 
+  @Column({
+    type: 'boolean',
+    default: false,
+    name: 'is_email_confirmed',
+  })
+  isEmailConfirmed: boolean;
+
   @Exclude()
   @Column({ type: 'varchar', length: 255 })
   password: string;
