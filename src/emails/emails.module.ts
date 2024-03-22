@@ -6,6 +6,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import registersEnv from '@env/registers.env';
 import { ConfigType } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { JwtModule } from '@nestjs/jwt';
       },
     }),
     JwtModule,
+    UsersModule,
   ],
   providers: [EmailConfirmationService],
   exports: [EmailConfirmationService],
