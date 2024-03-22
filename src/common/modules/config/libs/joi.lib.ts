@@ -63,5 +63,4 @@ export const joiConfigSchema = Joi.object({
     .integer()
     .required(),
   COOKIE_SECRET: Joi.string().required(),
-  JWT_SECRET: Joi.string().required(),
 });

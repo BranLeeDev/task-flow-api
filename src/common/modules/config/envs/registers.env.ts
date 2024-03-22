@@ -18,7 +18,6 @@ export default registerAs('registers', () => {
       accessTokenExpirationTime: process.env.JWT_ACCESS_TOKEN_EXPIRATION_TIME,
       refreshTokenSecret: process.env.JWT_REFRESH_TOKEN_SECRET,
       refreshTokenExpirationTime: process.env.JWT_REFRESH_TOKEN_EXPIRATION_TIME,
-      secret: process.env.JWT_SECRET,
     },
     cookieSecret: process.env.COOKIE_SECRET,
   };
