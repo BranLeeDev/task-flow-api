@@ -102,6 +102,15 @@ export class UsersService {
     });
   }
 
+  async markEmailAsConfirmed(email: string) {
+    await this.userRepo.update(
+      { email },
+      {
+        isEmailConfirmed: true,
+      },
+    );
+  }
+
   async create(createUserDto: CreateUserDto) {
     this.logger.log('Creating user');
     const newUser = this.userRepo.create(createUserDto);
