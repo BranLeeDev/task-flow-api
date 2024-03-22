@@ -23,6 +23,11 @@ export default registerAs('registers', () => {
         process.env.JWT_VERIFICATION_TOKEN_EXPIRATION_TIME,
     },
     cookieSecret: process.env.COOKIE_SECRET,
+    email: {
+      service: process.env.EMAIL_SERVICE,
+      user: process.env.EMAIL_USER,
+      password: process.env.EMAIL_PASSWORD,
+    },
     emailConfirmationUrl: process.env.EMAIL_CONFIRMATION_URL,
   };
 });
