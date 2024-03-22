@@ -17,7 +17,7 @@ export class AuthController {
 
   @Public()
   @UseGuards(AuthGuard('local'))
-  @Post('login')
+  @Post('sign-in')
   async signIn(
     @Req() req: FastifyRequest,
     @Res({ passthrough: true }) res: FastifyReply,
