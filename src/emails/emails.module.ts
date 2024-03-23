@@ -7,6 +7,7 @@ import registersEnv from '@env/registers.env';
 import { ConfigType } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from 'src/users/users.module';
+import { EmailConfirmationController } from './controllers/email-confirmation.controller';
 
 @Module({
   imports: [
@@ -42,5 +43,6 @@ import { UsersModule } from 'src/users/users.module';
   ],
   providers: [EmailConfirmationService],
   exports: [EmailConfirmationService],
+  controllers: [EmailConfirmationController],
 })
 export class EmailsModule {}
