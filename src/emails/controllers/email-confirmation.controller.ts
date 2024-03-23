@@ -14,5 +14,8 @@ export class EmailConfirmationController {
       confirmEmailDto.token,
     );
     await this.emailConfirmationEmail.confirmEmail(email);
+    return {
+      message: 'Email address has been successfully confirmed',
+    };
   }
 }
