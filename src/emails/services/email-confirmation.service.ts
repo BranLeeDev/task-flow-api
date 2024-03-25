@@ -33,6 +33,7 @@ export class EmailConfirmationService {
       context: {
         name: email.split('@')[0],
         url,
+        token,
       },
     });
   }
