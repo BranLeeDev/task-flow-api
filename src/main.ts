@@ -9,6 +9,7 @@ import { Logger } from 'nestjs-pino';
 import fastifyCookie from '@fastify/cookie';
 import { AppModule } from './app.module';
 import fastifyCsrfProtection from '@fastify/csrf-protection';
+import fastifyHelmet from '@fastify/helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -23,6 +24,14 @@ async function bootstrap() {
   await app.register(fastifyCsrfProtection, {
     cookieOpts: {
       signed: true,
+    },
+  });
+  await app.register(fastifyHelmet, {
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        'img-src': ['self', 'https: data:'],
+      },
     },
   });
   app.useLogger(app.get(Logger));
