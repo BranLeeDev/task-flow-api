@@ -6,3 +6,7 @@ export interface PayloadToken {
 export interface VerificationToken {
   email: string;
 }
+
+export interface RecoveryToken {
+  email: string;
+}
