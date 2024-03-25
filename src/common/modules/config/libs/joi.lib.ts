@@ -68,6 +68,11 @@ export const joiConfigSchema = Joi.object({
     .integer()
     .positive()
     .required(),
+  JWT_PASSWORD_RESET_TOKEN_SECRET: Joi.string().required(),
+  JWT_PASSWORD_RESET_TOKEN_DURATION: Joi.number()
+    .integer()
+    .positive()
+    .required(),
   EMAIL_CONFIRMATION_URL: URI,
   EMAIL_SERVICE: Joi.string().required(),
   EMAIL_USER: Joi.string().required(),

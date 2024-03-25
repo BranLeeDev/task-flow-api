@@ -21,6 +21,9 @@ export default registerAs('registers', () => {
       verificationTokenSecret: process.env.JWT_VERIFICATION_TOKEN_SECRET,
       verificationTokenExpirationTime:
         process.env.JWT_VERIFICATION_TOKEN_EXPIRATION_TIME,
+      passwordResetTokenSecret: process.env.JWT_PASSWORD_RESET_TOKEN_SECRET,
+      passwordResetExpirationTime:
+        process.env.JWT_PASSWORD_RESET_EXPIRATION_TIME,
     },
     cookieSecret: process.env.COOKIE_SECRET,
     email: {
