@@ -38,6 +38,7 @@ export class User extends Base {
   })
   email: string;
 
+  @Exclude()
   @Column({
     type: 'boolean',
     default: false,
