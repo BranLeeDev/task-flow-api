@@ -8,6 +8,9 @@ dependencies:
   '@fastify/cookie':
     specifier: ^9.3.1
     version: 9.3.1
+  '@fastify/csrf-protection':
+    specifier: ^6.4.1
+    version: 6.4.1
   '@nestjs-modules/mailer':
     specifier: ^1.11.2
     version: 1.11.2(@nestjs/common@10.3.5)(@nestjs/core@10.3.5)(nodemailer@6.9.13)
@@ -726,6 +729,18 @@ packages:
     dependencies:
       fastify-plugin: 4.5.1
       mnemonist: 0.39.6
+    dev: false
+
+  /@fastify/csrf-protection@6.4.1:
+    resolution: {integrity: sha512-nP1xjruddvWMvqjxTVzpLqWVLAX7P/XWkeTaARg3bXVrVmpDWjDMN7KfV3swIT/XexjDooMo+QG/n0n6ynZaiw==}
+    dependencies:
+      '@fastify/csrf': 6.3.0
+      '@fastify/error': 3.4.1
+      fastify-plugin: 4.5.1
+    dev: false
+
+  /@fastify/csrf@6.3.0:
+    resolution: {integrity: sha512-6w0gZZf4an8SGRYUS0nECTJb8eI45h/YIFkf2GJnba+mS+aJg0ArpS6Y8HXgLVvPxUGtQZYNB2z+UpISJ3v3Ug==}
     dev: false
 
   /@fastify/error@3.4.1:
