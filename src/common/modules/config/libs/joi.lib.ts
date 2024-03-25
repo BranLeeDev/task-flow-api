@@ -73,6 +73,7 @@ export const joiConfigSchema = Joi.object({
     .integer()
     .positive()
     .required(),
+  PASSWORD_RESET_URL: Joi.string().required(),
   EMAIL_CONFIRMATION_URL: URI,
   EMAIL_SERVICE: Joi.string().required(),
   EMAIL_USER: Joi.string().required(),
