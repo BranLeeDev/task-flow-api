@@ -12,12 +12,15 @@ import {
 import { UsersService } from '../services/users.service';
 import { FilterUserDto, UpdateUserDto } from '../dtos/users.dto';
 import { EmailConfirmationGuard } from 'src/auth/guards/email-confirmation.guard';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { UserRoles } from '@models/user.model';
 
 @UseGuards(EmailConfirmationGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @Roles(UserRoles.Administrator)
   @Get()
   async findAll(@Query() filterUserDto: FilterUserDto) {
     const res = await this.usersService.findAll(filterUserDto);
