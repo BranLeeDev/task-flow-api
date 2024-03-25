@@ -7,10 +7,13 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { ProjectsService } from '../services/projects.service';
 import { CreateProjectDto, UpdateProjectDto } from '../dtos/projects.dto';
+import { EmailConfirmationGuard } from 'src/auth/guards/email-confirmation.guard';
 
+@UseGuards(EmailConfirmationGuard)
 @Controller('projects')
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}

@@ -7,10 +7,13 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { TeamsService } from '../services/teams.service';
 import { CreateTeamDto, UpdateTeamDto } from '../dtos/teams.dto';
+import { EmailConfirmationGuard } from 'src/auth/guards/email-confirmation.guard';
 
+@UseGuards(EmailConfirmationGuard)
 @Controller('teams')
 export class TeamsController {
   constructor(private readonly teamsService: TeamsService) {}

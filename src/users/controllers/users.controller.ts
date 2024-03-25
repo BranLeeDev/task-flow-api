@@ -7,10 +7,13 @@ import {
   ParseIntPipe,
   Patch,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
 import { FilterUserDto, UpdateUserDto } from '../dtos/users.dto';
+import { EmailConfirmationGuard } from 'src/auth/guards/email-confirmation.guard';
 
+@UseGuards(EmailConfirmationGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
