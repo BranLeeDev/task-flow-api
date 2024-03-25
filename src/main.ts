@@ -15,6 +15,7 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter(),
   );
+  app.enableCors();
   const configService = app.get(ConfigService);
   await app.register(fastifyCookie, {
     secret: configService.get('COOKIE_SECRET'),
