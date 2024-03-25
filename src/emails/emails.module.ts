@@ -8,6 +8,8 @@ import { ConfigType } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from 'src/users/users.module';
 import { EmailConfirmationController } from './controllers/email-confirmation.controller';
+import { PasswordResetService } from './services/password-reset.service';
+import { PasswordResetController } from './controllers/password-reset.controller';
 
 @Module({
   imports: [
@@ -41,8 +43,8 @@ import { EmailConfirmationController } from './controllers/email-confirmation.co
     JwtModule,
     UsersModule,
   ],
-  providers: [EmailConfirmationService],
+  providers: [EmailConfirmationService, PasswordResetService],
   exports: [EmailConfirmationService],
-  controllers: [EmailConfirmationController],
+  controllers: [EmailConfirmationController, PasswordResetController],
 })
 export class EmailsModule {}
