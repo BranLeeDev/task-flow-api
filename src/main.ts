@@ -8,6 +8,7 @@ import { ConfigService } from '@nestjs/config';
 import { Logger } from 'nestjs-pino';
 import fastifyCookie from '@fastify/cookie';
 import { AppModule } from './app.module';
+import fastifyCsrfProtection from '@fastify/csrf-protection';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -17,6 +18,11 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   await app.register(fastifyCookie, {
     secret: configService.get('COOKIE_SECRET'),
+  });
+  await app.register(fastifyCsrfProtection, {
+    cookieOpts: {
+      signed: true,
+    },
   });
   app.useLogger(app.get(Logger));
   app.useGlobalPipes(
