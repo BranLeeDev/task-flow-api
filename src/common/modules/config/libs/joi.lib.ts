@@ -69,7 +69,7 @@ export const joiConfigSchema = Joi.object({
     .positive()
     .required(),
   JWT_PASSWORD_RESET_TOKEN_SECRET: Joi.string().required(),
-  JWT_PASSWORD_RESET_TOKEN_DURATION: Joi.number()
+  JWT_PASSWORD_RESET_TOKEN_EXPIRATION_TIME: Joi.number()
     .integer()
     .positive()
     .required(),
