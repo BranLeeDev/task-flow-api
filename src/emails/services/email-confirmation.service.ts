@@ -38,6 +38,14 @@ export class EmailConfirmationService {
     });
   }
 
+  async resendConfirmationLink(userId: number) {
+    const user = await this.usersService.findUserById(userId);
+    if (user.isEmailConfirmed) {
+      throw new BadRequestException('Email already confirmed');
+    }
+    await this.sendVerificationLink(user.email);
+  }
+
   async confirmEmail(email: string) {
     const user = await this.usersService.findUserByEmail(email);
     if (user.isEmailConfirmed) {
