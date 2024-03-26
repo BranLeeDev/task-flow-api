@@ -19,7 +19,7 @@ export class LoginService {
 
   async validateUser(signInDto: SignInDto) {
     const { email, password } = signInDto;
-    const user = await this.usersService.findUserByEmail(email);
+    const user = await this.usersService.findUserEmail(email);
     if (!user) return null;
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return null;
