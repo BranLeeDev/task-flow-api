@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   Logger,
   NotFoundException,
@@ -9,6 +10,8 @@ import { FindManyOptions, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { User } from '@entities/users/user.entity';
 import { CreateUserDto, FilterUserDto, UpdateUserDto } from '../dtos/users.dto';
+import registersEnv from '@env/registers.env';
+import { ConfigType } from '@nestjs/config';
 
 @Injectable()
 export class UsersService {
@@ -16,6 +19,8 @@ export class UsersService {
 
   constructor(
     @InjectRepository(User) private readonly userRepo: Repository<User>,
+    @Inject(registersEnv.KEY)
+    private readonly configService: ConfigType<typeof registersEnv>,
   ) {}
 
   async findAll(filterUserDto?: FilterUserDto) {
@@ -147,5 +152,15 @@ export class UsersService {
     await this.userRepo.delete(userId);
     this.logger.log(`User with ID ${userId} deleted successfully`);
     return userToDelete;
+  }
+
+  resetCookies() {
+    const { isProd } = this.configService;
+    const secure = isProd ? 'Secure' : '';
+
+    return [
+      `Authentication=; HttpOnly; Path=/; Max-Age=0; ${secure}`,
+      `Refresh=; HttpOnly; Path=/; Max-Age=0; ${secure}`,
+    ];
   }
 }
