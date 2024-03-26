@@ -12,6 +12,7 @@ import {
   MaxLength,
   Min,
   MinLength,
+  ValidateIf,
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -42,6 +43,12 @@ export class CreateUserDto {
   @IsOptional()
   @IsEnum(UserRoles)
   readonly role?: UserRoles;
+
+  @ValidateIf((user) => user.role === UserRoles.Administrator)
+  @IsString()
+  @MinLength(8)
+  @MaxLength(50)
+  readonly masterPassword?: string;
 }
 
 export class FilterUserDto {
@@ -63,5 +70,5 @@ export class FilterUserDto {
 }
 
 export class UpdateUserDto extends PartialType(
-  OmitType(CreateUserDto, ['password', 'email', 'role']),
+  OmitType(CreateUserDto, ['password', 'email']),
 ) {}
