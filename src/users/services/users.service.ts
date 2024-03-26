@@ -5,6 +5,7 @@ import {
   Injectable,
   Logger,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, QueryFailedError, Repository } from 'typeorm';
@@ -139,6 +140,15 @@ export class UsersService {
       const newUser = this.userRepo.create(createUserDto);
       const hashPassword = await bcrypt.hash(newUser.password, 10);
       newUser.password = hashPassword;
+      if (createUserDto.masterPassword) {
+        if (
+          createUserDto.masterPassword !== this.configService.masterPassword
+        ) {
+          throw new UnauthorizedException(
+            'Unauthorized: Master password is incorrect',
+          );
+        }
+      }
       const createdUser = await this.userRepo.save(newUser);
       this.logger.log(`User created successfully with ID ${createdUser.id}`);
       return createdUser;
