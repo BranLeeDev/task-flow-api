@@ -1,12 +1,13 @@
 import {
   BadRequestException,
+  ConflictException,
   Inject,
   Injectable,
   Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindManyOptions, Repository } from 'typeorm';
+import { FindManyOptions, QueryFailedError, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { User } from '@entities/users/user.entity';
 import { CreateUserDto, FilterUserDto, UpdateUserDto } from '../dtos/users.dto';
@@ -133,13 +134,23 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDto) {
-    this.logger.log('Creating user');
-    const newUser = this.userRepo.create(createUserDto);
-    const hashPassword = await bcrypt.hash(newUser.password, 10);
-    newUser.password = hashPassword;
-    const createdUser = await this.userRepo.save(newUser);
-    this.logger.log(`User created successfully with ID ${createdUser.id}`);
-    return createdUser;
+    try {
+      this.logger.log('Creating user');
+      const newUser = this.userRepo.create(createUserDto);
+      const hashPassword = await bcrypt.hash(newUser.password, 10);
+      newUser.password = hashPassword;
+      const createdUser = await this.userRepo.save(newUser);
+      this.logger.log(`User created successfully with ID ${createdUser.id}`);
+      return createdUser;
+    } catch (error) {
+      if (
+        error instanceof QueryFailedError &&
+        error.message.includes('UQ_97672ac88f789774dd47f7c8be3')
+      ) {
+        throw new ConflictException('Registration failed due to data conflict');
+      }
+      throw error;
+    }
   }
 
   async update(userId: number, updateUserDto: UpdateUserDto) {
