@@ -33,5 +33,6 @@ export default registerAs('registers', () => {
       confirmationUrl: process.env.EMAIL_CONFIRMATION_URL,
     },
     passwordResetUrl: process.env.PASSWORD_RESET_URL,
+    masterPassword: process.env.MASTER_PASSWORD,
   };
 });
