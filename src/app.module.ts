@@ -4,9 +4,17 @@ import { UsersModule } from './users/users.module';
 import { TasksModule } from './tasks/tasks.module';
 import { AuthModule } from './auth/auth.module';
 import { EmailsModule } from './emails/emails.module';
+import { CaslModule } from './casl/casl.module';
 
 @Module({
-  imports: [CommonModule, UsersModule, TasksModule, AuthModule, EmailsModule],
+  imports: [
+    CommonModule,
+    UsersModule,
+    TasksModule,
+    AuthModule,
+    EmailsModule,
+    CaslModule,
+  ],
   controllers: [],
   providers: [],
 })
