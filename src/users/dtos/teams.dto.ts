@@ -5,7 +5,6 @@ import {
   IsInt,
   IsNotEmpty,
   IsOptional,
-  IsPositive,
   IsString,
   MaxLength,
   MinLength,
@@ -28,11 +27,6 @@ export class CreateTeamDto {
   @ArrayUnique()
   @IsInt({ each: true })
   readonly membersIds?: number[];
-
-  @IsNotEmpty()
-  @IsInt()
-  @IsPositive()
-  readonly leaderId: number;
 }
 
 export class UpdateTeamDto extends PartialType(CreateTeamDto) {}
