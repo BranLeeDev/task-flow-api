@@ -1,6 +1,11 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { In, QueryFailedError, Repository } from 'typeorm';
 import { Team, User } from '@entities/index';
 import { CreateTeamDto, UpdateTeamDto } from '../dtos/teams.dto';
 import { UsersService } from './users.service';
@@ -47,29 +52,33 @@ export class TeamsService {
     return team;
   }
 
-  async create(createTeamDto: CreateTeamDto) {
-    this.logger.log('Creating team');
-    const newTeam = this.teamRepo.create(createTeamDto);
-    if (createTeamDto.membersIds) {
-      await this.addMembersToTeam(newTeam, createTeamDto.membersIds);
+  async create(createTeamDto: CreateTeamDto, leaderId: number) {
+    try {
+      this.logger.log('Creating team');
+      const newTeam = this.teamRepo.create(createTeamDto);
+      if (createTeamDto.membersIds) {
+        await this.addMembersToTeam(newTeam, createTeamDto.membersIds);
+      }
+      newTeam.leader = await this.usersService.findUserById(leaderId);
+      const createdTeam = await this.teamRepo.save(newTeam);
+      this.logger.log(`Team created successfully with ID ${createdTeam.id}`);
+      return createdTeam;
+    } catch (error) {
+      if (
+        error instanceof QueryFailedError &&
+        error.message.includes('UQ_10c8e335dc32010ef90abe65cec')
+      ) {
+        throw new ConflictException(
+          'Team creation failed due to duplicate key',
+        );
+      }
+      throw error;
     }
-    newTeam.leader = await this.usersService.findUserById(
-      createTeamDto.leaderId,
-    );
-    const createdTeam = await this.teamRepo.save(newTeam);
-    this.logger.log(`Team created successfully with ID ${createdTeam.id}`);
-    return createdTeam;
   }
 
   async update(teamId: number, updateTeamDto: UpdateTeamDto) {
     this.logger.log(`Updating team with ID ${teamId}`);
     const teamFound = await this.findTeamById(teamId);
-    if (updateTeamDto.leaderId) {
-      const leader = await this.usersService.findUserById(
-        updateTeamDto.leaderId,
-      );
-      teamFound.leader = leader;
-    }
     if (updateTeamDto.membersIds) {
       await this.addMembersToTeam(teamFound, updateTeamDto.membersIds);
     }
