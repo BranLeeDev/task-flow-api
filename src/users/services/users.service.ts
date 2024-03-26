@@ -61,6 +61,11 @@ export class UsersService {
     return user;
   }
 
+  async findUserEmail(email: string) {
+    const user = await this.userRepo.findOneBy({ email });
+    return user;
+  }
+
   async findOne(userId: number) {
     this.logger.log(`Fetching user with ID ${userId} with its relations`);
     const user = await this.userRepo.findOne({
