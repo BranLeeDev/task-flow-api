@@ -48,12 +48,6 @@ export class CreateProjectDto {
   readonly budget: number;
 
   @IsNotEmpty()
-  @IsPositive()
-  @IsInt()
-  @IsNumber()
-  readonly managerId: number;
-
-  @IsNotEmpty()
   @IsNumber()
   @IsInt()
   @IsPositive()

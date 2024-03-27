@@ -55,9 +55,6 @@ export class ProjectsService {
   async create(createProjectDto: CreateProjectDto) {
     this.logger.log('Creating project');
     const newProject = this.projectRepo.create(createProjectDto);
-    newProject.manager = await this.usersService.findUserById(
-      createProjectDto.managerId,
-    );
     newProject.team = await this.teamsService.findTeamById(
       createProjectDto.teamId,
     );
@@ -69,11 +66,6 @@ export class ProjectsService {
   async update(projectId: number, updateProjectDto: UpdateProjectDto) {
     this.logger.log(`Updating project with ID ${projectId}`);
     const projectFound = await this.findProjectById(projectId);
-    if (updateProjectDto.managerId) {
-      projectFound.manager = await this.usersService.findUserById(
-        updateProjectDto.managerId,
-      );
-    }
     if (updateProjectDto.teamId) {
       projectFound.team = await this.teamsService.findTeamById(
         updateProjectDto.teamId,
