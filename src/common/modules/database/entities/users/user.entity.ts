@@ -8,7 +8,6 @@ import {
 } from 'typeorm';
 import { UserRoles } from '../../models/user.model';
 import { Base } from '../shared/base.entity';
-import { Project } from '../tasks/project.entity';
 import { Task } from '../tasks/task.entity';
 import { Team } from './team.entity';
 import { Exclude } from 'class-transformer';
@@ -67,9 +66,6 @@ export class User extends Base {
 
   @OneToOne(() => Team, (team) => team.leader)
   leader: Team;
-
-  @OneToMany(() => Project, (project) => project.manager)
-  projects: Relation<Project[]>;
 
   @OneToMany(() => Task, (task) => task.user)
   tasks: Relation<Task[]>;
