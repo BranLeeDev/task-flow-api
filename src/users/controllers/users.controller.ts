@@ -36,6 +36,13 @@ export class UsersController {
     return res;
   }
 
+  @Get('my-profile')
+  async getMyProfile(@Req() req: FastifyRequest) {
+    const user = req.user;
+    const profile = await this.usersService.findOne(user.id);
+    return profile;
+  }
+
   @Get(':userId')
   async findOne(
     @Param('userId', ParseIntPipe) userId: number,
