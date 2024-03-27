@@ -61,7 +61,7 @@ export class TeamsController {
   async getMyTeam(@Req() req: FastifyRequest) {
     const user = req.user;
     const userFound = await this.usersService.findOne(user.id);
-    return userFound.teams;
+    return userFound.leader;
   }
 
   @Get(':teamId')
