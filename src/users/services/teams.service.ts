@@ -58,9 +58,6 @@ export class TeamsService {
     try {
       this.logger.log('Creating team');
       const newTeam = this.teamRepo.create(createTeamDto);
-      if (createTeamDto.membersIds) {
-        await this.addMembersToTeam(newTeam, createTeamDto.membersIds);
-      }
       newTeam.leader = await this.usersService.findUserById(leaderId);
       const createdTeam = await this.teamRepo.save(newTeam);
       this.logger.log(`Team created successfully with ID ${createdTeam.id}`);
@@ -81,9 +78,6 @@ export class TeamsService {
   async update(teamId: number, updateTeamDto: UpdateTeamDto) {
     this.logger.log(`Updating team with ID ${teamId}`);
     const teamFound = await this.findTeamById(teamId);
-    if (updateTeamDto.membersIds) {
-      await this.addMembersToTeam(teamFound, updateTeamDto.membersIds);
-    }
     this.teamRepo.merge(teamFound, updateTeamDto);
     const updatedTeam = await this.teamRepo.save(teamFound);
     this.logger.log(`Team with ID ${teamId} updated successfully`);
