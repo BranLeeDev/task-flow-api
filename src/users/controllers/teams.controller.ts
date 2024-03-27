@@ -73,7 +73,6 @@ export class TeamsController {
     const ability = this.caslAbilityFactory.defineAbilityFor(user);
     const teamFound = await this.teamsService.findOne(teamId);
     const isAllowed = ability.can(Actions.Read, teamFound.leader);
-    console.log(isAllowed);
     if (!isAllowed) {
       throw new ForbiddenException(
         'You are not allowed to perform this action',
