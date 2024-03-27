@@ -15,8 +15,6 @@ import {
 import { UsersService } from '../services/users.service';
 import { FilterUserDto, UpdateUserDto } from '../dtos/users.dto';
 import { EmailConfirmationGuard } from 'src/auth/guards/email-confirmation.guard';
-import { Roles } from 'src/auth/decorators/roles.decorator';
-import { UserRoles } from '@models/user.model';
 import { FastifyRequest } from 'src/auth/models/request.model';
 import { Actions, CaslAbilityFactory } from 'src/casl/casl-ability.factory';
 import { FastifyReply } from 'fastify';
@@ -29,7 +27,6 @@ export class UsersController {
     private readonly caslAbilityFactory: CaslAbilityFactory,
   ) {}
 
-  @Roles(UserRoles.Administrator)
   @Get()
   async findAll(@Query() filterUserDto: FilterUserDto) {
     const res = await this.usersService.findAll(filterUserDto);
