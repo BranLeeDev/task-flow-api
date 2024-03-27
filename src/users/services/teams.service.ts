@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   Logger,
@@ -9,6 +10,7 @@ import { In, QueryFailedError, Repository } from 'typeorm';
 import { Team, User } from '@entities/index';
 import { CreateTeamDto, UpdateTeamDto } from '../dtos/teams.dto';
 import { UsersService } from './users.service';
+import { UserRoles } from '@models/user.model';
 
 @Injectable()
 export class TeamsService {
@@ -97,20 +99,23 @@ export class TeamsService {
   }
 
   private async addMembersToTeam(team: Team, idsList: number[]) {
-    await this.validateUsersExist(idsList);
+    await this.validateUsers(idsList);
     const members = await this.userRepo.findBy({
       id: In(idsList),
     });
     team.members = members;
   }
 
-  private async validateUsersExist(idsList: number[]) {
+  private async validateUsers(idsList: number[]) {
     this.logger.log('Validating users existence');
     for (const id of idsList) {
-      const user = await this.userRepo.findBy({ id });
+      const user = await this.userRepo.findOneBy({ id });
       if (!user) {
         this.logger.error(`Not found the user with id #${id}`);
         throw new NotFoundException(`Not found the user with id #${id}`);
+      }
+      if (user.role !== UserRoles.TeamMember) {
+        throw new BadRequestException('Only Team Members are allowed to join');
       }
     }
     this.logger.log('All users exist');
