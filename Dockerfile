@@ -18,6 +18,7 @@ COPY tsconfig*.json ${DIR}
 COPY .swcrc ${DIR}
 COPY nest-cli.json ${DIR}
 COPY src ${DIR}/src
+COPY public ${DIR}/public
 
 RUN pnpm build && \
     pnpm prune --prod
@@ -31,6 +32,7 @@ COPY --from=build ${DIR}/dist ${DIR}/dist
 COPY --from=build ${DIR}/package.json ${DIR}/package.json
 COPY --from=build ${DIR}/src ${DIR}/src
 COPY --from=build ${DIR}/tsconfig.json ${DIR}/tsconfig.json
+COPY --from=build ${DIR}/public ${DIR}/public
 
 ENV NODE_ENV=production
 EXPOSE ${PORT}
