@@ -42,7 +42,7 @@ export class ProjectsService {
     this.logger.log(`Fetching project with ID ${projectId} with its relations`);
     const project = await this.projectRepo.findOne({
       where: { id: projectId },
-      relations: ['team'],
+      relations: ['user'],
     });
     if (!project) {
       this.logger.error(`Not found the project with id #${projectId}`);
@@ -55,9 +55,6 @@ export class ProjectsService {
   async create(createProjectDto: CreateProjectDto) {
     this.logger.log('Creating project');
     const newProject = this.projectRepo.create(createProjectDto);
-    newProject.team = await this.teamsService.findTeamById(
-      createProjectDto.teamId,
-    );
     const createdProject = await this.projectRepo.save(newProject);
     this.logger.log('Project created successfully with ID');
     return createdProject;
@@ -66,11 +63,6 @@ export class ProjectsService {
   async update(projectId: number, updateProjectDto: UpdateProjectDto) {
     this.logger.log(`Updating project with ID ${projectId}`);
     const projectFound = await this.findProjectById(projectId);
-    if (updateProjectDto.teamId) {
-      projectFound.team = await this.teamsService.findTeamById(
-        updateProjectDto.teamId,
-      );
-    }
     this.projectRepo.merge(projectFound, updateProjectDto);
     const updatedProject = await this.projectRepo.save(projectFound);
     this.logger.log(`Project with ID ${projectId} updated successfully`);

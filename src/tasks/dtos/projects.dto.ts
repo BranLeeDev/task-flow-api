@@ -3,11 +3,9 @@ import { PartialType } from '@nestjs/swagger';
 import {
   IsDate,
   IsEnum,
-  IsInt,
   IsNotEmpty,
   IsNumber,
   IsOptional,
-  IsPositive,
   IsString,
   Max,
   MaxLength,
@@ -46,12 +44,6 @@ export class CreateProjectDto {
   @Min(0.01)
   @Max(999999.99)
   readonly budget: number;
-
-  @IsNotEmpty()
-  @IsNumber()
-  @IsInt()
-  @IsPositive()
-  readonly teamId: number;
 }
 
 export class UpdateProjectDto extends PartialType(CreateProjectDto) {}

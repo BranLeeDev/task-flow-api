@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, Relation } from 'typeorm';
 import { Base } from '../shared/base.entity';
 import { ProjectPriority, ProjectStatus } from '../../models/project.model';
-import { Team } from '../users/team.entity';
+import { User } from '..';
 
 @Entity({ name: 'projects' })
 export class Project extends Base {
@@ -38,7 +38,7 @@ export class Project extends Base {
   @Column({ type: 'decimal' })
   budget: number;
 
-  @ManyToOne(() => Team, (team) => team.projects)
-  @JoinColumn({ name: 'team_id' })
-  team: Relation<Team>;
+  @ManyToOne(() => User, (user) => user.projects)
+  @JoinColumn({ name: 'user_id' })
+  user: Relation<User>;
 }

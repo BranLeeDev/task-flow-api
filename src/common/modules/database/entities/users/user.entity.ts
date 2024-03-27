@@ -11,6 +11,7 @@ import { Base } from '../shared/base.entity';
 import { Task } from '../tasks/task.entity';
 import { Team } from './team.entity';
 import { Exclude } from 'class-transformer';
+import { Project } from '..';
 
 @Entity({ name: 'users' })
 export class User extends Base {
@@ -72,4 +73,7 @@ export class User extends Base {
 
   @ManyToMany(() => Team, (team) => team.members)
   teams: Relation<Team[]>;
+
+  @OneToMany(() => Project, (project) => project.user)
+  projects: Relation<Project[]>;
 }
