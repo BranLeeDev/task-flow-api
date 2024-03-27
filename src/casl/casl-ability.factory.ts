@@ -15,13 +15,17 @@ export enum Actions {
   Update = 'update',
   Delete = 'delete',
 }
-type Subjects = User | typeof User | Team | typeof Team;
+type Subjects = User | typeof User | Team | typeof Team | 'all';
 type AppAbility = MongoAbility<[Actions, Subjects]>;
 
 @Injectable()
 export class CaslAbilityFactory {
   defineAbilityFor(user: User) {
     const { can, build } = new AbilityBuilder<AppAbility>(createMongoAbility);
+
+    if (user.role === UserRoles.Administrator) {
+      can(Actions.Manage, 'all');
+    }
 
     if (user.role === UserRoles.leader) {
       can(
