@@ -42,7 +42,7 @@ export class ProjectsService {
     this.logger.log(`Fetching project with ID ${projectId} with its relations`);
     const project = await this.projectRepo.findOne({
       where: { id: projectId },
-      relations: ['manager', 'team'],
+      relations: ['team'],
     });
     if (!project) {
       this.logger.error(`Not found the project with id #${projectId}`);
