@@ -52,9 +52,10 @@ export class ProjectsService {
     return project;
   }
 
-  async create(createProjectDto: CreateProjectDto) {
+  async create(createProjectDto: CreateProjectDto, userId: number) {
     this.logger.log('Creating project');
     const newProject = this.projectRepo.create(createProjectDto);
+    newProject.user = await this.usersService.findUserById(userId);
     const createdProject = await this.projectRepo.save(newProject);
     this.logger.log('Project created successfully with ID');
     return createdProject;
