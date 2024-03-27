@@ -54,10 +54,10 @@ export class TasksService {
     return task;
   }
 
-  async create(createTaskDto: CreateTaskDto) {
+  async create(createTaskDto: CreateTaskDto, userId: number) {
     this.logger.log('Creating task');
     const newTask = this.taskRepo.create(createTaskDto);
-    newTask.user = await this.usersService.findUserById(createTaskDto.userId);
+    newTask.user = await this.usersService.findUserById(userId);
     const createdTask = await this.taskRepo.save(newTask);
     this.logger.log(`Task created successfully with ID ${createdTask.id}`);
     return createdTask;

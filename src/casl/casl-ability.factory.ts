@@ -4,7 +4,7 @@ import {
   MongoAbility,
   createMongoAbility,
 } from '@casl/ability';
-import { Team, User } from '@entities/index';
+import { Task, Team, User } from '@entities/index';
 import { UserRoles } from '@models/user.model';
 import { Injectable } from '@nestjs/common';
 
@@ -15,7 +15,14 @@ export enum Actions {
   Update = 'update',
   Delete = 'delete',
 }
-type Subjects = User | typeof User | Team | typeof Team | 'all';
+type Subjects =
+  | User
+  | typeof User
+  | Team
+  | typeof Team
+  | Task
+  | typeof Task
+  | 'all';
 type AppAbility = MongoAbility<[Actions, Subjects]>;
 
 @Injectable()
@@ -38,6 +45,12 @@ export class CaslAbilityFactory {
         },
       );
     }
+
+    can([Actions.Create, Actions.Update, Actions.Read, Actions.Delete], Task, {
+      user: {
+        id: user.id,
+      },
+    });
 
     can([Actions.Update, Actions.Read, Actions.Delete], User, {
       id: user.id,

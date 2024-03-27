@@ -11,9 +11,10 @@ import { UsersModule } from 'src/users/users.module';
 import { Project } from '@entities/index';
 import { ProjectsService } from './services/projects.service';
 import { ProjectsController } from './controllers/projects.controller';
+import { CaslModule } from 'src/casl/casl.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Task, Project]), UsersModule],
+  imports: [TypeOrmModule.forFeature([Task, Project]), UsersModule, CaslModule],
   controllers: [TasksController, ProjectsController],
   providers: [TasksService, ProjectsService],
 })

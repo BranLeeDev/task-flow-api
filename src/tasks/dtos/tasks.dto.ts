@@ -1,11 +1,9 @@
-import { OmitType, PartialType } from '@nestjs/swagger';
+import { PartialType } from '@nestjs/swagger';
 import {
   IsDate,
   IsEnum,
-  IsInt,
   IsNotEmpty,
   IsOptional,
-  IsPositive,
   IsString,
   MaxLength,
   MinDate,
@@ -37,11 +35,6 @@ export class CreateTaskDto {
   @IsOptional()
   @IsEnum(TaskPriority)
   readonly priority?: TaskPriority;
-
-  @IsNotEmpty()
-  @IsInt()
-  @IsPositive()
-  readonly userId: number;
 }
 
 export class FilterTaskDto {
@@ -54,6 +47,4 @@ export class FilterTaskDto {
   readonly priority?: TaskPriority;
 }
 
-export class UpdateTaskDto extends PartialType(
-  OmitType(CreateTaskDto, ['userId']),
-) {}
+export class UpdateTaskDto extends PartialType(CreateTaskDto) {}
