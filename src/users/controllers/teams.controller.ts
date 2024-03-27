@@ -19,12 +19,14 @@ import { FastifyRequest } from 'src/auth/models/request.model';
 import { Team } from '@entities/index';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { UserRoles } from '@models/user.model';
+import { UsersService } from '../services/users.service';
 
 @UseGuards(EmailConfirmationGuard)
 @Controller('teams')
 export class TeamsController {
   constructor(
     private readonly teamsService: TeamsService,
+    private readonly usersService: UsersService,
     private readonly caslAbilityFactory: CaslAbilityFactory,
   ) {}
 
@@ -53,6 +55,13 @@ export class TeamsController {
       message: 'Team created successfully',
       data: res,
     };
+  }
+
+  @Get('my-teams')
+  async getMyTeam(@Req() req: FastifyRequest) {
+    const user = req.user;
+    const userFound = await this.usersService.findOne(user.id);
+    return userFound.teams;
   }
 
   @Get(':teamId')
