@@ -65,7 +65,7 @@ export class User extends Base {
   currentHashedRefreshToken?: string | null;
 
   @OneToOne(() => Team, (team) => team.leader)
-  leader: Team;
+  leader: Relation<Team>;
 
   @OneToMany(() => Task, (task) => task.user)
   tasks: Relation<Task[]>;
