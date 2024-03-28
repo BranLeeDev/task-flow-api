@@ -18,8 +18,8 @@ import { EmailConfirmationGuard } from 'src/auth/guards/email-confirmation.guard
 import { FastifyRequest } from 'src/auth/models/request.model';
 import { Actions, CaslAbilityFactory } from 'src/casl/casl-ability.factory';
 import { FastifyReply } from 'fastify';
+import { Public } from 'src/auth/decorators/public.decorator';
 
-@UseGuards(EmailConfirmationGuard)
 @Controller('users')
 export class UsersController {
   constructor(
@@ -27,12 +27,14 @@ export class UsersController {
     private readonly caslAbilityFactory: CaslAbilityFactory,
   ) {}
 
+  @Public()
   @Get()
   async findAll(@Query() filterUserDto: FilterUserDto) {
     const res = await this.usersService.findAll(filterUserDto);
     return res;
   }
 
+  @UseGuards(EmailConfirmationGuard)
   @Get('my-profile')
   async getMyProfile(@Req() req: FastifyRequest) {
     const user = req.user;
@@ -40,6 +42,7 @@ export class UsersController {
     return profile;
   }
 
+  @UseGuards(EmailConfirmationGuard)
   @Get(':userId')
   async findOne(
     @Param('userId', ParseIntPipe) userId: number,
@@ -57,6 +60,7 @@ export class UsersController {
     return res;
   }
 
+  @UseGuards(EmailConfirmationGuard)
   @Patch(':userId')
   async update(
     @Param('userId', ParseIntPipe) userId: number,
@@ -79,6 +83,7 @@ export class UsersController {
     };
   }
 
+  @UseGuards(EmailConfirmationGuard)
   @Delete(':userId')
   async delete(
     @Param('userId', ParseIntPipe) userId: number,
