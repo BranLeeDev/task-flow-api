@@ -1,7 +1,11 @@
 import { PartialType } from '@nestjs/swagger';
 import {
+  ArrayUnique,
+  IsArray,
+  IsInt,
   IsNotEmpty,
   IsOptional,
+  IsPositive,
   IsString,
   MaxLength,
   MinLength,
@@ -18,6 +22,15 @@ export class CreateTeamDto {
   @IsString()
   @MinLength(15)
   readonly description?: string;
+}
+
+export class InvitationDto {
+  @IsNotEmpty()
+  @IsPositive({ each: true })
+  @IsInt({ each: true })
+  @IsArray()
+  @ArrayUnique()
+  usersIds: number[];
 }
 
 export class UpdateTeamDto extends PartialType(CreateTeamDto) {}
