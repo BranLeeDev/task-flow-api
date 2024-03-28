@@ -10,6 +10,7 @@ import { UsersModule } from 'src/users/users.module';
 import { EmailConfirmationController } from './controllers/email-confirmation.controller';
 import { PasswordResetService } from './services/password-reset.service';
 import { PasswordResetController } from './controllers/password-reset.controller';
+import { TeamInvitationService } from './services/team-invitation.service';
 
 @Module({
   imports: [
@@ -43,7 +44,11 @@ import { PasswordResetController } from './controllers/password-reset.controller
     JwtModule,
     UsersModule,
   ],
-  providers: [EmailConfirmationService, PasswordResetService],
+  providers: [
+    EmailConfirmationService,
+    PasswordResetService,
+    TeamInvitationService,
+  ],
   exports: [EmailConfirmationService],
   controllers: [EmailConfirmationController, PasswordResetController],
 })
