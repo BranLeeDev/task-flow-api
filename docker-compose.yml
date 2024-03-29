@@ -21,6 +21,13 @@ services:
     ports:
       - ${PGADMIN_HOST_PORT}:${PGADMIN_PORT}
 
+  redis:
+    image: redis:7
+    ports:
+      - ${REDIS_PORT}:${REDIS_PORT}
+    volumes:
+      - redis:/data
+
   task-flow-api:
     container_name: task-flow-api
     build:
@@ -31,3 +38,7 @@ services:
     ports:
       - ${PORT}:${PORT}
     env_file: .env
+
+volumes:
+  redis:
+    driver: local
