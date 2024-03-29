@@ -11,6 +11,7 @@ import { EmailConfirmationController } from './controllers/email-confirmation.co
 import { PasswordResetService } from './services/password-reset.service';
 import { PasswordResetController } from './controllers/password-reset.controller';
 import { TeamInvitationService } from './services/team-invitation.service';
+import { TasksStatusService } from './services/tasks-status.service';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { TeamInvitationService } from './services/team-invitation.service';
     EmailConfirmationService,
     PasswordResetService,
     TeamInvitationService,
+    TasksStatusService,
   ],
   exports: [EmailConfirmationService],
   controllers: [EmailConfirmationController, PasswordResetController],
