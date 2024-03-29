@@ -9,6 +9,7 @@ import {
 import { isProd } from '@env/variables.env';
 import registersEnv from '@env/registers.env';
 import { joiConfigSchema } from './libs/joi.lib';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -44,6 +45,12 @@ import { joiConfigSchema } from './libs/joi.lib';
       load: [registersEnv],
       validationSchema: joiConfigSchema,
     }),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 900000,
+        limit: 100,
+      },
+    ]),
   ],
 })
 export class ConfigModule implements NestModule {
