@@ -81,4 +81,8 @@ export const joiConfigSchema = Joi.object({
   MASTER_PASSWORD: Joi.string().required(),
   REDIS_HOST: Joi.string().min(8).max(100).required(),
   REDIS_PORT: PORT,
+  REDIS_PASSWORD: Joi.when('NODE_ENV', {
+    is: PROD,
+    then: Joi.string().min(30).required(),
+  }),
 });
