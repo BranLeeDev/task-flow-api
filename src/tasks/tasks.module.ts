@@ -17,5 +17,6 @@ import { CaslModule } from 'src/casl/casl.module';
   imports: [TypeOrmModule.forFeature([Task, Project]), UsersModule, CaslModule],
   controllers: [TasksController, ProjectsController],
   providers: [TasksService, ProjectsService],
+  exports: [TasksService],
 })
 export class TasksModule {}
