@@ -79,4 +79,6 @@ export const joiConfigSchema = Joi.object({
   EMAIL_USER: Joi.string().required(),
   EMAIL_PASSWORD: Joi.string().required(),
   MASTER_PASSWORD: Joi.string().required(),
+  REDIS_HOST: Joi.string().min(8).max(100).required(),
+  REDIS_PORT: PORT,
 });
