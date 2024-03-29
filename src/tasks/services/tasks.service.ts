@@ -4,6 +4,7 @@ import { FindManyOptions, Repository } from 'typeorm';
 import { Task } from '@entities/tasks/task.entity';
 import { CreateTaskDto, FilterTaskDto, UpdateTaskDto } from '../dtos/tasks.dto';
 import { UsersService } from 'src/users/services/users.service';
+import { TaskStatus } from '@models/task.model';
 
 @Injectable()
 export class TasksService {
@@ -52,6 +53,22 @@ export class TasksService {
     }
     this.logger.log(`Task with ID ${taskId} fetched successfully`);
     return task;
+  }
+
+  async countPendingTasks(userId: number) {
+    const total = await this.taskRepo.countBy({
+      user: { id: userId },
+      status: TaskStatus.Pending,
+    });
+    return total;
+  }
+
+  async countInProgressTasks(userId: number) {
+    const total = await this.taskRepo.countBy({
+      user: { id: userId },
+      status: TaskStatus.InProgress,
+    });
+    return total;
   }
 
   async create(createTaskDto: CreateTaskDto, userId: number) {
