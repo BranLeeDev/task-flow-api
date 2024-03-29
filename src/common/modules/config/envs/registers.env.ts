@@ -34,5 +34,9 @@ export default registerAs('registers', () => {
     },
     passwordResetUrl: process.env.PASSWORD_RESET_URL,
     masterPassword: process.env.MASTER_PASSWORD,
+    redis: {
+      host: process.env.REDIS_HOST,
+      port: process.env.REDIS_PORT,
+    },
   };
 });
