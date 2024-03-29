@@ -12,7 +12,7 @@ export class TasksStatusService {
     private readonly mailerService: MailerService,
   ) {}
 
-  @Cron(CronExpression.EVERY_5_SECONDS)
+  @Cron(CronExpression.EVERY_DAY_AT_6AM)
   async sendTasksStatus() {
     const usersList = await this.usersService.findAll();
 
