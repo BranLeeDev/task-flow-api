@@ -1,5 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { ConfigModule as NestConfigModule } from '@nestjs/config';
+import { ConfigType, ConfigModule as NestConfigModule } from '@nestjs/config';
 import { FastifyRequest } from 'fastify';
 import { LoggerModule } from 'nestjs-pino';
 import {
@@ -10,6 +10,8 @@ import { isProd } from '@env/variables.env';
 import registersEnv from '@env/registers.env';
 import { joiConfigSchema } from './libs/joi.lib';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { CacheModule } from '@nestjs/cache-manager';
+import { redisStore } from 'cache-manager-redis-yet';
 
 @Module({
   imports: [
@@ -44,6 +46,19 @@ import { ThrottlerModule } from '@nestjs/throttler';
       isGlobal: true,
       load: [registersEnv],
       validationSchema: joiConfigSchema,
+    }),
+    CacheModule.registerAsync({
+      isGlobal: true,
+      inject: [registersEnv.KEY],
+      useFactory: async (configService: ConfigType<typeof registersEnv>) => ({
+        store: await redisStore({
+          socket: {
+            host: configService.redis.host,
+            port: configService.redis.port,
+          },
+          password: configService.redis.password,
+        }),
+      }),
     }),
     ThrottlerModule.forRoot([
       {
