@@ -27,7 +27,9 @@ export class UsersService {
 
   async findAll(filterUserDto?: FilterUserDto) {
     this.logger.log('Fetching all users');
-    const options: FindManyOptions<User> = {};
+    const options: FindManyOptions<User> = {
+      select: ['id', 'firstName', 'lastName'],
+    };
     if (filterUserDto) {
       const { limit, offset, role } = filterUserDto;
       options.take = limit ?? 20;

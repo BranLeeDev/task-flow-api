@@ -4,6 +4,7 @@ import {
   Delete,
   ForbiddenException,
   Get,
+  Inject,
   Param,
   ParseIntPipe,
   Patch,
@@ -19,18 +20,24 @@ import { FastifyRequest } from 'src/auth/models/request.model';
 import { Actions, CaslAbilityFactory } from 'src/casl/casl-ability.factory';
 import { FastifyReply } from 'fastify';
 import { Public } from 'src/auth/decorators/public.decorator';
+import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager';
 
 @Controller('users')
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
     private readonly caslAbilityFactory: CaslAbilityFactory,
+    @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {}
 
   @Public()
   @Get()
   async findAll(@Query() filterUserDto: FilterUserDto) {
+    const key = 'users-find-all';
+    const usersCached = await this.cacheManager.get(key);
+    if (usersCached) return usersCached;
     const res = await this.usersService.findAll(filterUserDto);
+    this.cacheManager.set(key, res, 5000);
     return res;
   }
 
