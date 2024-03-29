@@ -7,6 +7,7 @@ import { TasksModule } from './tasks/tasks.module';
 import { AuthModule } from './auth/auth.module';
 import { EmailsModule } from './emails/emails.module';
 import { CaslModule } from './casl/casl.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { CaslModule } from './casl/casl.module';
       rootPath: join(__dirname, '..', 'public'),
       serveRoot: '/',
     }),
+    ScheduleModule.forRoot(),
     CommonModule,
     UsersModule,
     TasksModule,
