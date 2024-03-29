@@ -37,6 +37,24 @@ After installing the application, configure the following environment variables:
 - **PGADMIN_PASSWORD**: Password for accessing PgAdmin.
 - **PGADMIN_HOST_PORT**: Port number for accessing PgAdmin host.
 - **PGADMIN_PORT**: Port number for PgAdmin.
+- **DATABASE_URL**: Connection string for the PostgreSQL database.
+- **JWT_ACCESS_TOKEN_SECRET**: Secret key for generating JWT access tokens.
+- **JWT_ACCESS_TOKEN_EXPIRATION_TIME**: Expiration time for JWT access tokens in seconds.
+- **JWT_REFRESH_TOKEN_SECRET**: Secret key for generating JWT refresh tokens.
+- **JWT_REFRESH_TOKEN_EXPIRATION_TIME**: Expiration time for JWT refresh tokens in seconds.
+- **JWT_VERIFICATION_TOKEN_SECRET**: Secret key for generating JWT email verification tokens.
+- **JWT_VERIFICATION_TOKEN_EXPIRATION_TIME**: Expiration time for JWT email verification tokens in seconds.
+- **JWT_PASSWORD_RESET_TOKEN_SECRET**: Secret key for generating JWT password reset tokens.
+- **JWT_PASSWORD_RESET_TOKEN_EXPIRATION_TIME**: Expiration time for JWT password reset tokens in seconds.
+- **JWT_INVITATION_TOKEN_SECRET**: Secret key for generating JWT invitation tokens.
+- **JWT_INVITATION_TOKEN_EXPIRATION_TIME**: Expiration time for JWT invitation tokens in seconds.
+- **EMAIL_SERVICE**: Email service provider.
+- **EMAIL_USER**: Email address used for sending emails.
+- **EMAIL_PASSWORD**: Password for the email account.
+- **EMAIL_CONFIRMATION_URL**: URL for confirming email addresses.
+- **COOKIE_SECRET**: Secret key for encrypting cookies.
+- **PASSWORD_RESET_URL**: URL for resetting passwords.
+- **MASTER_PASSWORD**: Master password for the application.
 
 Ensure these variables are appropriately configured for the application's smooth operation in the development environment. Remember to manage sensitive data securely.
 
