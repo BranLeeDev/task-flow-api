@@ -55,6 +55,9 @@ After installing the application, configure the following environment variables:
 - **COOKIE_SECRET**: Secret key for encrypting cookies.
 - **PASSWORD_RESET_URL**: URL for resetting passwords.
 - **MASTER_PASSWORD**: Master password for the application.
+- **REDIS_HOST**: Redis server hostname.
+- **REDIS_PORT**: Redis server port number.
+- **REDIS_PASSWORD**: Redis password for authentication.
 
 Ensure these variables are appropriately configured for the application's smooth operation in the development environment. Remember to manage sensitive data securely.
 
