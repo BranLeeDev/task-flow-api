@@ -31,7 +31,6 @@ export class User extends Base {
   })
   lastName?: string;
 
-  @Exclude()
   @Column({
     type: 'varchar',
     length: 100,
@@ -51,7 +50,6 @@ export class User extends Base {
   @Column({ type: 'varchar', length: 255 })
   password: string;
 
-  @Exclude()
   @Column({
     type: 'enum',
     enum: UserRoles,
