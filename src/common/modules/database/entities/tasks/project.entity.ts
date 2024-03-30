@@ -38,7 +38,7 @@ export class Project extends Base {
   @Column({ type: 'decimal' })
   budget: number;
 
-  @ManyToOne(() => User, (user) => user.projects)
+  @ManyToOne(() => User, (user) => user.projects, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user: Relation<User>;
 }

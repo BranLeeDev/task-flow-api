@@ -18,7 +18,7 @@ export class Team extends Base {
   @Column({ type: 'text', nullable: true })
   description: string;
 
-  @OneToOne(() => User, (user) => user.leader)
+  @OneToOne(() => User, (user) => user.leader, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'leader_id' })
   leader: Relation<User>;
 
