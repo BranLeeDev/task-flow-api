@@ -168,6 +168,13 @@ export class UsersService {
   async update(userId: number, updateUserDto: UpdateUserDto) {
     this.logger.log(`Updating user with ID ${userId}`);
     const userFound = await this.findUserById(userId);
+    if (updateUserDto.masterPassword) {
+      if (updateUserDto.masterPassword !== this.configService.masterPassword) {
+        throw new UnauthorizedException(
+          'Unauthorized: Master password is incorrect',
+        );
+      }
+    }
     this.userRepo.merge(userFound, updateUserDto);
     const updatedUser = await this.userRepo.save(userFound);
     this.logger.log(`User with ID ${userId} updated successfully`);
