@@ -71,4 +71,10 @@ export class FilterUserDto {
 
 export class UpdateUserDto extends PartialType(
   OmitType(CreateUserDto, ['password', 'email']),
-) {}
+) {
+  @ValidateIf((user) => user.role === UserRoles.Administrator)
+  @IsString()
+  @MinLength(8)
+  @MaxLength(50)
+  readonly masterPassword?: string;
+}
