@@ -3,20 +3,36 @@ import {
   NestFastifyApplication,
   FastifyAdapter,
 } from '@nestjs/platform-fastify';
-import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  ForbiddenException,
+  ValidationPipe,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import fastifyCookie from '@fastify/cookie';
 import fastifyCsrfProtection from '@fastify/csrf-protection';
 import fastifyHelmet from '@fastify/helmet';
 import { Logger } from 'nestjs-pino';
 import { AppModule } from './app.module';
+import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
+
+const whiteList: string[] = [];
+const corsOptions: CorsOptions = {
+  origin: (origin, cb) => {
+    if (whiteList.includes(origin) || !origin) {
+      cb(null, true);
+    } else {
+      cb(new ForbiddenException('Not allowed by CORS'));
+    }
+  },
+};
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter(),
   );
-  app.enableCors();
+  app.enableCors(corsOptions);
   const configService = app.get(ConfigService);
   await app.register(fastifyCookie, {
     secret: configService.get('COOKIE_SECRET'),
