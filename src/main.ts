@@ -12,7 +12,7 @@ import { Logger } from 'nestjs-pino';
 import { AppModule } from './app.module';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 
-const whiteList: string[] = ['https://designo-web-ten.vercel.app'];
+const whiteList: string[] = [];
 const corsOptions: CorsOptions = {
   origin: whiteList,
 };
