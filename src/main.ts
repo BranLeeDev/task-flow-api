@@ -18,13 +18,7 @@ import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.int
 
 const whiteList: string[] = [];
 const corsOptions: CorsOptions = {
-  origin: (origin, cb) => {
-    if (whiteList.includes(origin)) {
-      cb(null, true);
-    } else {
-      cb(new ForbiddenException('Not allowed by CORS'));
-    }
-  },
+  origin: whiteList,
 };
 
 async function bootstrap() {
