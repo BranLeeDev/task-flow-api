@@ -3,11 +3,7 @@ import {
   NestFastifyApplication,
   FastifyAdapter,
 } from '@nestjs/platform-fastify';
-import {
-  ClassSerializerInterceptor,
-  ForbiddenException,
-  ValidationPipe,
-} from '@nestjs/common';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import fastifyCookie from '@fastify/cookie';
 import fastifyCsrfProtection from '@fastify/csrf-protection';
@@ -16,7 +12,7 @@ import { Logger } from 'nestjs-pino';
 import { AppModule } from './app.module';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 
-const whiteList: string[] = [];
+const whiteList: string[] = ['https://designo-web-ten.vercel.app'];
 const corsOptions: CorsOptions = {
   origin: whiteList,
 };
